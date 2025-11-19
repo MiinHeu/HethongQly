@@ -9,10 +9,10 @@ public class QuanLyCuaHangDienThoai {
         do {
             System.out.println("Menu:");
             System.out.println("1. Quản lý Kho Nhà cung cấp");
-            System.out.println("3. Quản lý Khách hàng");
-            System.out.println("4. Quản lý Sản phẩm");
-            System.out.println("5. Quản lý Giao Dịch");
-            System.out.println("6. Thoát chương trình");
+            System.out.println("2. Quản lý Khách hàng");
+            System.out.println("3. Quản lý Sản phẩm");
+            System.out.println("4. Quản lý Giao Dịch");
+            System.out.println("5. Thoát chương trình");
             System.out.print("Chọn: ");
             select = in.nextInt();
             in.nextLine();
