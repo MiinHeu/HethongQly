@@ -17,6 +17,7 @@ public abstract class ThucTheKho {
         this.soLuong = soLuong;
         this.trangThai = trangThai;
     }
+
     // Hàm trừu tượng - bắt buộc lớp con phải cài đặt
     public abstract String layThongTinChiTiet();
     public abstract double tinhGiaTri();

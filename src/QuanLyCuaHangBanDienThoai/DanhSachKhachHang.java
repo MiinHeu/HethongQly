@@ -13,6 +13,7 @@ class DanhSachKhachHang implements IQuanLyKhachHang {
     // CRUD
     public void them(KhachHang kh) { ds.add(kh); }
     public void xuat() { ds.forEach(KhachHang::xuat); }
+    public boolean xoa(String ma) { return ds.removeIf(k -> k.getMa().equalsIgnoreCase(ma)); }
 
     public KhachHang timTheoMa(String ma) {
         return ds.stream().filter(k -> k.getMa().equalsIgnoreCase(ma)).findFirst().orElse(null);

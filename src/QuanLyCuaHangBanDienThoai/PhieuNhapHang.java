@@ -1,7 +1,9 @@
-package QuanLyCuaHangBanDienThoai;// Thành viên 3 - Quản lý Giao Dịch
+package QuanLyCuaHangBanDienThoai;
+// Thành viên 3 - Quản lý Giao Dịch
 // File: PhieuNhapHang.java
 
 import java.util.Date;
+import java.text.SimpleDateFormat; // <-- ĐÃ THÊM
 
 /**
  * Lớp PhieuNhapHang kế thừa từ GiaoDich, đại diện cho giao dịch nhập hàng từ nhà cung cấp.
@@ -25,9 +27,12 @@ public class PhieuNhapHang extends GiaoDich {
 
     @Override
     public void xuatThongTin() {
+        // --- BẮT ĐẦU SỬA ---
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("--- PHIẾU NHẬP HÀNG ---");
         System.out.println("Mã giao dịch: " + maGD);
-        System.out.println("Ngày nhập: " + ngayGD);
+        System.out.println("Ngày nhập: " + sdf.format(ngayGD)); // <-- SỬA DÒNG NÀY
+        // --- KẾT THÚC SỬA ---
         System.out.println("Người nhập: " + nguoiThucHien);
         System.out.println("Nhà cung cấp: " + nhaCungCap);
         System.out.println("Số lượng: " + soLuong);

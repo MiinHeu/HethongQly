@@ -123,11 +123,33 @@ public class QlyKhoNcc {
         System.out.print("Số lượng tồn: ");
         int soLuongTon = sc.nextInt();
         sc.nextLine();
-        System.out.print("Số lượng tồn: ");
-        int ngayNhap = sc.nextInt();
+        System.out.print("Ngày nhập (dd/MM/yyyy): ");
+        String ngayNhap = sc.nextLine();
 
-
-        SanPham sp = new SanPham(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap) ;
+        SanPham sp;
+        String l = loai == null ? "" : loai.toLowerCase();
+        if (l.contains("điện") || l.contains("dien") || l.contains("đt") ) {
+            System.out.print("Nhập IMEI: ");
+            String imei = sc.nextLine();
+            System.out.print("Nhập cấu hình: ");
+            String cauHinh = sc.nextLine();
+            sp = new DienThoai(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, imei, cauHinh);
+        } else if (l.contains("phụ") || l.contains("phu") || l.contains("phu kien") || l.contains("phukien")) {
+            System.out.print("Loại phụ kiện: ");
+            String loaiPk = sc.nextLine();
+            System.out.print("Tương thích: ");
+            String tuongThich = sc.nextLine();
+            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, loaiPk, tuongThich);
+        } else if (l.contains("linh")) {
+            System.out.print("Dành cho sửa chữa? (y/n): ");
+            boolean danhChoSua = sc.nextLine().equalsIgnoreCase("y");
+            System.out.print("Thuộc bảo hành? (y/n): ");
+            boolean thuocBaoHanh = sc.nextLine().equalsIgnoreCase("y");
+            sp = new LinhKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, danhChoSua, thuocBaoHanh);
+        } else {
+            // default to PhuKien if type not recognized
+            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, "", "");
+        }
 
         String serial = KhoHelper.sinhSerialNgauNhien();
         String viTriKe = KhoHelper.ganViTriKe(loai);
@@ -474,10 +496,36 @@ public class QlyKhoNcc {
         double giaBan = sc.nextDouble();
         System.out.print("Số lượng tồn: ");
         int soLuongTon = sc.nextInt();
-        System.out.print("Ngày Nhập: ");
-        int ngayNhap = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Ngày nhập (dd/MM/yyyy): ");
+        String ngayNhap = sc.nextLine();
+        System.out.print("Loại sản phẩm: ");
+        String loai = sc.nextLine();
 
-//        SanPham sp = new SanPham( maSP,  tenSP,  giaBan,  hangSX, soLuongTon, ngayNhap);
+        SanPham sp;
+        String l = loai == null ? "" : loai.toLowerCase();
+        if (l.contains("điện") || l.contains("dien") || l.contains("đt")) {
+            System.out.print("Nhập IMEI: ");
+            String imei = sc.nextLine();
+            System.out.print("Nhập cấu hình: ");
+            String cauHinh = sc.nextLine();
+            sp = new DienThoai(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, imei, cauHinh);
+        } else if (l.contains("phụ") || l.contains("phu") || l.contains("phu kien") || l.contains("phukien")) {
+            System.out.print("Loại phụ kiện: ");
+            String loaiPk = sc.nextLine();
+            System.out.print("Tương thích: ");
+            String tuongThich = sc.nextLine();
+            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, loaiPk, tuongThich);
+        } else if (l.contains("linh")) {
+            System.out.print("Dành cho sửa chữa? (y/n): ");
+            boolean danhChoSua = sc.nextLine().equalsIgnoreCase("y");
+            System.out.print("Thuộc bảo hành? (y/n): ");
+            boolean thuocBaoHanh = sc.nextLine().equalsIgnoreCase("y");
+            sp = new LinhKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, danhChoSua, thuocBaoHanh);
+        } else {
+            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, "", "");
+        }
+
         dsKho.nhapKho(sp, soLuongTon, ncc);
         System.out.println("Đã nhập kho!");
     }

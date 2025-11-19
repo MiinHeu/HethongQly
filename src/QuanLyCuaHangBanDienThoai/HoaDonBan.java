@@ -1,9 +1,9 @@
-package QuanLyCuaHangBanDienThoai;// Thành viên 3 - Quản lý Giao Dịch
-// File: HoaDonBan.java
+package QuanLyCuaHangBanDienThoai;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat; // <-- ĐÃ THÊM
 
 /**
  * Lớp HoaDonBan kế thừa từ GiaoDich, đại diện cho giao dịch bán hàng.
@@ -26,10 +26,6 @@ public class HoaDonBan extends GiaoDich {
         return danhSachChiTiet;
     }
 
-    /**
-     * Thêm một chi tiết (sản phẩm) vào hóa đơn và cập nhật lại tổng tiền.
-     * @param chiTiet Chi tiết giao dịch cần thêm.
-     */
     public void themChiTiet(ChiTietGiaoDich chiTiet) {
         this.danhSachChiTiet.add(chiTiet);
         this.tongTien += chiTiet.tinhThanhTien();
@@ -37,9 +33,12 @@ public class HoaDonBan extends GiaoDich {
 
     @Override
     public void xuatThongTin() {
+        // --- BẮT ĐẦU SỬA ---
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("--- HÓA ĐƠN BÁN HÀNG ---");
         System.out.println("Mã giao dịch: " + maGD);
-        System.out.println("Ngày giao dịch: " + ngayGD);
+        System.out.println("Ngày giao dịch: " + sdf.format(ngayGD)); // <-- SỬA DÒNG NÀY
+        // --- KẾT THÚC SỬA ---
         System.out.println("Nhân viên thực hiện: " + nguoiThucHien);
         System.out.println("Mã khách hàng: " + maKhachHang);
         System.out.println("Chi tiết:");

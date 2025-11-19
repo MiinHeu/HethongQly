@@ -30,10 +30,10 @@ public class QuanLyCuaHangDienThoai {
                     QlySanPham ql3 = new QlySanPham();
                     ql3.menu();
                     break;
-//                case 4:
-//                    QlyGiaoDich ql5 = new QlyGiaoDich();
-//                    ql5.menu();
-//                    break;
+                case 4:
+                    QlyGiaoDich ql4 = new QlyGiaoDich();
+                    ql4.menu();
+                    break;
                 case 5:
                     System.out.println("Thoát hẳn chương trình!");
                     break;

@@ -51,7 +51,38 @@ class QlyKhachHang {
         System.out.print("Hạng thành viên (Thuong/Vang/VIP): ");
         String hang = scanner.nextLine();
 
+        if (hang.equalsIgnoreCase("VIP")) {
+            return new KhachHangVIP(ma, ten, sdt, email, ngaySinh, diem, hang, new ArrayList<>(), 0.1);
+        }
+
         return new KhachHang(ma, ten, sdt, email, ngaySinh, diem, hang, new ArrayList<>());
+    }
+
+    private void suaThongTin(KhachHang kh) {
+        System.out.println("=== SỬA THÔNG TIN KHÁCH HÀNG ===");
+        System.out.println("(Nhập trống để giữ nguyên)");
+
+        System.out.print("Tên mới: ");
+        String ten = scanner.nextLine();
+        if (!ten.isEmpty()) kh.ten = ten;
+
+        System.out.print("SĐT mới: ");
+        String sdt = scanner.nextLine();
+        if (!sdt.isEmpty() && KhachHangHelper.validateSDT(sdt)) kh.sdt = sdt;
+
+        System.out.print("Email mới: ");
+        String email = scanner.nextLine();
+        if (!email.isEmpty() && KhachHangHelper.validateEmail(email)) kh.email = email;
+
+        System.out.print("Điểm tích lũy mới: ");
+        String diem = scanner.nextLine();
+        if (!diem.isEmpty()) kh.diemTichLuy = Integer.parseInt(diem);
+
+        System.out.print("Hạng mới (Thuong/Vang/VIP): ");
+        String hang = scanner.nextLine();
+        if (!hang.isEmpty()) kh.hangThanhVien = hang;
+
+        System.out.println("Sửa thành công!");
     }
 
     public void menu() {
@@ -72,6 +103,7 @@ class QlyKhachHang {
             choice = Integer.parseInt(scanner.nextLine());
 
             switch (choice) {
+
                 case 1:
                     KhachHang kh = nhapThongTinKhachHang();
                     dskh.them(kh);
@@ -85,11 +117,7 @@ class QlyKhachHang {
                     if (kSua == null) {
                         System.out.println("Không tìm thấy khách hàng!");
                     } else {
-                        System.out.println("Nhập thông tin mới:");
-                        KhachHang khMoi = nhapThongTinKhachHang();
-                        dskh.xoa(maSua);
-                        dskh.them(khMoi);
-                        System.out.println("Sửa thành công!");
+                        suaThongTin(kSua);
                     }
                     break;
 
@@ -101,7 +129,7 @@ class QlyKhachHang {
                     break;
 
                 case 4:
-                    System.out.println("Nhập tên khách cần tìm: ");
+                    System.out.print("Nhập tên khách cần tìm: ");
                     String tenTK = scanner.nextLine();
                     List<KhachHang> kq = dskh.timTheoTen(tenTK);
                     if (kq.isEmpty()) System.out.println("Không tìm thấy!");
