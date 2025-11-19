@@ -1,0 +1,17 @@
+KH001,Nguyen Lam Tri Dung,0901234567,a@gmail.com,1995-12-20,800,Vàng
+KH002,Tran Minh Khang,0912345678,b@gmail.com,1990-11-05,1500,VIP
+KH003,Le Van Sy,0987654321,c@gmail.com,2000-10-30,0,Tiềm năng
+KH004,Pham Thao Vy,0934567890,d@gmail.com,1998-02-12,300,Thường
+KH005,Hoang Thi Bang,0971122334,e@gmail.com,1992-07-25,1200,VIP
+KH006,Doan Van Hau,0962233445,f@gmail.com,1997-03-15,450,Bạc
+KH007,Nguyen Thi Thuy,0955566778,g@gmail.com,1999-09-09,50,Tiềm năng
+KH008,Le Huu Khuong,0943322110,h@gmail.com,1993-11-20,950,Vàng
+KH009,Tran Duy Nam,0938899777,i@gmail.com,1989-04-05,1800,VIP
+KH010,Pham Van Dong,0911002200,j@gmail.com,1996-08-18,620,Vàng
+KH0011,Nguyen Hoang Tuan,0901815367,k@gmail.com,1992-11-20,800,Vàng
+KH0012,Tran Ngoc Chau,0913524738,l@gmail.com,1990-17-01,1500,VIP
+KH0013,Phan Bao Trinh,0987600241,m@gmail.com,2005-10-31,0,Tiềm năng
+KH0014,Do Bao Thien,0934422990,n@gmail.com,1999-02-08,300,Thường
+KH0015,Dinh Thi Van,0978699414,o@gmail.com,2002-07-4,1200,VIP
+ 
+

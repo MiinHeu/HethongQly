@@ -1,0 +1,10 @@
+NCC001|Công ty TNHH Laptop Việt|Laptop, Macbook|95.5|0901234567|123 Nguyễn Huệ, Q1, TP.HCM
+NCC002|Điện thoại Di Động Thông Minh|Điện thoại, Smartphone|98.2|0912345678|456 Lê Lợi, Q1, TP.HCM
+NCC003|Phụ Kiện Công Nghệ ABC|Chuột, Bàn phím, Tai nghe|92.0|0923456789|789 Trần Hưng Đạo, Q5, TP.HCM
+NCC004|Linh Kiện Điện Tử XYZ|IC, Tụ điện, Điện trở|88.5|0934567890|321 Hai Bà Trưng, Q3, TP.HCM
+NCC005|Máy Tính Bảng Siêu Tốc|Tablet, iPad|96.8|0945678901|654 Võ Văn Tần, Q3, TP.HCM
+NCC006|Công ty CP Linh Kiện Sửa Chữa|Màn hình, Pin, Cáp|85.0|0956789012|987 Cách Mạng Tháng 8, Q10, TP.HCM
+NCC007|Nhà Phân Phối Apple Chính Hãng|iPhone, Macbook, iPad|99.5|0967890123|159 Đồng Khởi, Q1, TP.HCM
+NCC008|Samsung Electronics VN|Samsung Phone, Tablet|97.5|0978901234|753 Nguyễn Trãi, Q5, TP.HCM
+NCC009|Phụ Kiện Chính Hãng DEF|Sạc, Cáp, Ốp lưng|90.0|0989012345|246 Lý Thường Kiệt, Q10, TP.HCM
+NCC010|Công ty Linh Kiện Nhập Khẩu|Linh kiện đt, điện thoại|86.5|0990123456|135 Cộng Hòa, Tân Bình, TP.HCM
