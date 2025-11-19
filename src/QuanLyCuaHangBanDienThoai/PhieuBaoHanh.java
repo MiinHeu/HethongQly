@@ -1,7 +1,8 @@
-package QuanLyCuaHangBanDienThoai;// Thành viên 3 - Quản lý Giao Dịch
+// Thành viên 3 - Quản lý Giao Dịch
 // File: PhieuBaoHanh.java
 
 import java.util.Date;
+import java.text.SimpleDateFormat; // <-- ĐÃ THÊM
 
 /**
  * Lớp PhieuBaoHanh kế thừa từ GiaoDich, đại diện cho giao dịch bảo hành/sửa chữa.
@@ -25,9 +26,12 @@ public class PhieuBaoHanh extends GiaoDich {
 
     @Override
     public void xuatThongTin() {
+        // --- BẮT ĐẦU SỬA ---
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("--- PHIẾU BẢO HÀNH ---");
         System.out.println("Mã giao dịch: " + maGD);
-        System.out.println("Ngày bảo hành: " + ngayGD);
+        System.out.println("Ngày bảo hành: " + sdf.format(ngayGD)); // <-- SỬA DÒNG NÀY
+        // --- KẾT THÚC SỬA ---
         System.out.println("Kỹ thuật viên: " + nguoiThucHien);
         System.out.println("Mã sản phẩm: " + maSanPham);
         System.out.println("Mô tả lỗi: " + loiHong);
