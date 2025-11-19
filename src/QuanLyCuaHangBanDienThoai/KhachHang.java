@@ -17,11 +17,30 @@ class KhachHang extends ConNguoi {
         this.lichSuMuaHang = lichSuMuaHang != null ? lichSuMuaHang : new ArrayList<>();
     }
 
+    @Override
     public void xuat() {
         System.out.printf("%s | %s | %s | %s | %s | Điểm: %d | Hạng: %s%n",
                 ma, ten, sdt, email,
                 ngaySinh.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 diemTichLuy, hangThanhVien);
+    }
+
+    // Ghi file theo định dạng đẹp
+    public String toData() {
+        return ma + ";" + ten + ";" + sdt + ";" + email + ";" +
+                ngaySinh + ";" + diemTichLuy + ";" + hangThanhVien;
+    }
+
+    // Load từ file
+    public static KhachHang fromData(String data) {
+        String[] a = data.split(";");
+        return new KhachHang(
+                a[0], a[1], a[2], a[3],
+                LocalDate.parse(a[4]),
+                Integer.parseInt(a[5]),
+                a[6],
+                new ArrayList<>()
+        );
     }
 
     public int getDiemTichLuy() { return diemTichLuy; }
