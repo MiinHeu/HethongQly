@@ -7,12 +7,16 @@ public abstract class ThucTheKho {
     protected String trangThai;
 
     // Hàm thiết lập
+    public  ThucTheKho(){
+        this.soLuong = 0;
+        this.trangThai = "Trạng thái";
+        this.viTri = "A0";
+    }
     public ThucTheKho(String viTri, int soLuong, String trangThai) {
         this.viTri = viTri;
         this.soLuong = soLuong;
         this.trangThai = trangThai;
     }
-
     // Hàm trừu tượng - bắt buộc lớp con phải cài đặt
     public abstract String layThongTinChiTiet();
     public abstract double tinhGiaTri();

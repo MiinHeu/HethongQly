@@ -9,7 +9,13 @@ public class SanPhamTrongKho extends ThucTheKho {
     private Date ngayNhap;
     private String viTriKe;
 
-    // Hàm thiết lập đầy đủ
+    // Hàm thiết lập
+    public SanPhamTrongKho(){
+        super();
+        this.ngayNhap = new Date();
+        this.serialIMEI = "A000000000";
+        this.viTriKe = "A0";
+    }
     public SanPhamTrongKho(SanPham sanPham, String serialIMEI, Date ngayNhap, String viTriKe, String viTri, int soLuong, String trangThai) {
         super(viTri, soLuong, trangThai);
         this.sanPham = sanPham;
@@ -21,7 +27,8 @@ public class SanPhamTrongKho extends ThucTheKho {
     // Cài đặt hàm trừu tượng từ lớp cha
     @Override
     public String layThongTinChiTiet() {
-        return "Sản phẩm: " + sanPham.getTenSP() +
+        return "Sản phẩm: " + sanPham.getMaSP() + sanPham.getTenSP() + sanPham.getGiaBan()
+                + sanPham.getHangSX() + sanPham.getSoLuongTon() + sanPham.getNgayNhap() +
                 ", Serial: " + serialIMEI +
                 ", Vị trí kệ: " + viTriKe +
                 ", Số lượng: " + soLuong;
