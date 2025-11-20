@@ -6,14 +6,14 @@ import java.util.*;
 public class QlyKhoNcc {
     private DanhSachKho dsKho;
     private DanhSachNhaCungCap dsNcc;
+    private QuanLyTrungTam qltt; // Liên kết với quản lý trung tâm
     private Scanner sc = new Scanner(System.in);
-    private String fileKho = "QuanLyCuaHangBanDienThoai/kho.txt";
-    private String fileNcc = "QuanLyCuaHangBanDienThoai/nhacungcap.txt";
 
     // Hàm thiết lập
     public QlyKhoNcc() {
-        dsKho = new DanhSachKho();
-        dsNcc = new DanhSachNhaCungCap();
+        qltt = QuanLyTrungTam.getInstance();
+        dsKho = qltt.getDanhSachKho();
+        dsNcc = qltt.getDanhSachNhaCungCap();
     }
 
     // Menu chính
@@ -414,9 +414,9 @@ public class QlyKhoNcc {
         System.out.print("Mã NCC cần xóa: ");
         String ma = sc.nextLine();
         if (dsNcc.xoaNhaCungCap(ma)) {
-            System.out.println("Đã xóa!");
+            System.out.println("Đã xóa");
         } else {
-            System.out.println("Không tìm thấy!");
+            System.out.println("Không tìm thấy");
         }
     }
 
@@ -608,15 +608,11 @@ public class QlyKhoNcc {
 
     // Tải dữ liệu từ file
     private void taiDuLieu() {
-        dsKho.docFile(fileKho);
-        dsNcc.docFile(fileNcc);
-        System.out.println("Đã tải dữ liệu từ file!");
+        qltt.taiDuLieuTuFile();
     }
 
     // Lưu dữ liệu ra file
     private void luuDuLieu() {
-        dsKho.ghiFile(fileKho);
-        dsNcc.ghiFile(fileNcc);
-        System.out.println("Đã lưu dữ liệu ra file!");
+        qltt.luuDuLieuRaFile();
     }
 }

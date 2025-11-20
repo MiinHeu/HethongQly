@@ -1,0 +1,6 @@
+# File lưu trữ dữ liệu giao dịch
+# Format:
+# HDB = Hóa đơn bán: HDB,maGD,ngayGD,nguoiThucHien,maKH
+# CT = Chi tiết: CT,maSP,soLuong,donGia
+# PNH = Phiếu nhập hàng: PNH,maGD,ngayGD,nguoiThucHien,maNCC,soLuong,giaNhap
+# PBH = Phiếu bảo hành: PBH,maGD,ngayGD,nguoiThucHien,maSP,loiHong,phiSuaChua

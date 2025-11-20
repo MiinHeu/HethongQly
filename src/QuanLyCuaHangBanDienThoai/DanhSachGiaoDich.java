@@ -18,6 +18,55 @@ public class DanhSachGiaoDich {
     public void themGiaoDich(GiaoDich gd) {
         danhSach.add(gd);
     }
+    
+    // Xóa giao dịch theo mã
+    public boolean xoaGiaoDich(String maGD) {
+        for (int i = 0; i < danhSach.size(); i++) {
+            if (danhSach.get(i).getMaGD().equals(maGD)) {
+                danhSach.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Sửa giao dịch (thay thế giao dịch cũ bằng giao dịch mới)
+    public boolean suaGiaoDich(String maGD, GiaoDich gdMoi) {
+        for (int i = 0; i < danhSach.size(); i++) {
+            if (danhSach.get(i).getMaGD().equals(maGD)) {
+                danhSach.set(i, gdMoi);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Tìm kiếm giao dịch theo mã
+    public GiaoDich timTheoMa(String maGD) {
+        for (GiaoDich gd : danhSach) {
+            if (gd.getMaGD().equals(maGD)) {
+                return gd;
+            }
+        }
+        return null;
+    }
+    
+    // Tìm kiếm giao dịch theo ngày
+    public List<GiaoDich> timTheoNgay(Date ngay) {
+        List<GiaoDich> ketQua = new ArrayList<>();
+        for (GiaoDich gd : danhSach) {
+            if (gd.getNgayGD().equals(ngay)) {
+                ketQua.add(gd);
+            }
+        }
+        return ketQua;
+    }
+    
+    // Lấy danh sách tất cả giao dịch
+    public List<GiaoDich> getDanhSach() {
+        return new ArrayList<>(danhSach);
+    }
+    
     public void xuatTatCa() {
         if (danhSach.isEmpty()) {
             System.out.println("Danh sách giao dịch trống.");
@@ -64,7 +113,8 @@ public class DanhSachGiaoDich {
             HoaDonBan hienTai = null;
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) continue; // skip empty lines
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) continue; // skip empty lines and comments
                 String[] parts = line.split(",", -1);
                 String loai = parts[0];
                 if (loai.equals("HDB")) {

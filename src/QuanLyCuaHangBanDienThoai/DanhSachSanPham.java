@@ -156,22 +156,89 @@ public class DanhSachSanPham implements IQuanLySanPham {
 
     @Override
     public void ghiFile(String tenFile) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tenFile))) {
-            oos.writeObject(danhSach);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tenFile))) {
+            writer.write("# File danh sách sản phẩm - Format: LOAI|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|...");
+            writer.newLine();
+            writer.write("# DT = Điện thoại, PK = Phụ kiện, LK = Linh kiện");
+            writer.newLine();
+            
+            for (SanPham sp : danhSach) {
+                if (sp instanceof DienThoai) {
+                    DienThoai dt = (DienThoai) sp;
+                    writer.write(String.format("DT|%s|%s|%.2f|%s|%d|%s|%s|%s",
+                        dt.getMaSP(), dt.getTenSP(), dt.getGiaBan(), dt.getHangSX(),
+                        dt.getSoLuongTon(), dt.getNgayNhap(), dt.getImei(), dt.getCauHinh()));
+                    writer.newLine();
+                } else if (sp instanceof PhuKien) {
+                    PhuKien pk = (PhuKien) sp;
+                    writer.write(String.format("PK|%s|%s|%.2f|%s|%d|%s|%s|%s",
+                        pk.getMaSP(), pk.getTenSP(), pk.getGiaBan(), pk.getHangSX(),
+                        pk.getSoLuongTon(), pk.getNgayNhap(), pk.getLoaiPhuKien(), pk.getTuongThich()));
+                    writer.newLine();
+                } else if (sp instanceof LinhKien) {
+                    LinhKien lk = (LinhKien) sp;
+                    writer.write(String.format("LK|%s|%s|%.2f|%s|%d|%s|%b|%b",
+                        lk.getMaSP(), lk.getTenSP(), lk.getGiaBan(), lk.getHangSX(),
+                        lk.getSoLuongTon(), lk.getNgayNhap(), lk.isDanhChoSuaChua(), lk.isThuocBaoHanh()));
+                    writer.newLine();
+                }
+            }
+            System.out.println("Ghi file '" + tenFile + "' thành công!");
         } catch (IOException e) {
             System.err.println("Lỗi ghi file: " + e.getMessage());
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void docFile(String tenFile) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(tenFile))) {
-            danhSach = (ArrayList<SanPham>) ois.readObject();
+        danhSach.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader(tenFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) continue; // Bỏ qua dòng trống và comment
+                
+                String[] parts = line.split("\\|", -1);
+                if (parts.length < 7) continue; // Dòng không hợp lệ
+                
+                String loai = parts[0];
+                String maSP = parts[1];
+                String tenSP = parts[2];
+                double giaBan = Double.parseDouble(parts[3]);
+                String hangSX = parts[4];
+                int soLuongTon = Integer.parseInt(parts[5]);
+                String ngayNhap = parts[6];
+                
+                SanPham sp = null;
+                
+                if (loai.equals("DT") && parts.length >= 9) {
+                    // Điện thoại
+                    String imei = parts[7];
+                    String cauHinh = parts[8];
+                    sp = new DienThoai(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, imei, cauHinh);
+                } else if (loai.equals("PK") && parts.length >= 9) {
+                    // Phụ kiện
+                    String loaiPhuKien = parts[7];
+                    String tuongThich = parts[8];
+                    sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, loaiPhuKien, tuongThich);
+                } else if (loai.equals("LK") && parts.length >= 9) {
+                    // Linh kiện
+                    boolean danhChoSuaChua = Boolean.parseBoolean(parts[7]);
+                    boolean thuocBaoHanh = Boolean.parseBoolean(parts[8]);
+                    sp = new LinhKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, danhChoSuaChua, thuocBaoHanh);
+                }
+                
+                if (sp != null) {
+                    danhSach.add(sp);
+                }
+            }
+            System.out.println("Đọc file '" + tenFile + "' thành công! Đã tải " + danhSach.size() + " sản phẩm.");
         } catch (FileNotFoundException e) {
             System.err.println("Không tìm thấy file: " + e.getMessage());
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.err.println("Lỗi đọc file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Lỗi định dạng số trong file: " + e.getMessage());
         }
     }
 

@@ -5,11 +5,13 @@ import java.util.Scanner;
 
 class QlySanPham {
     private DanhSachSanPham danhSachSP;
+    private QuanLyTrungTam qltt; // Liên kết với quản lý trung tâm
     private Scanner scanner = new Scanner(System.in);
-    private String fileName = "SanPham.dat";
+    private String fileName = "src/QuanLyCuaHangBanDienThoai/sanpham.txt";
 
     public QlySanPham() {
-        danhSachSP = new DanhSachSanPham();
+        qltt = QuanLyTrungTam.getInstance();
+        danhSachSP = qltt.getDanhSachSanPham();
     }
 
     public void menu() {

@@ -27,11 +27,27 @@ public class SanPhamTrongKho extends ThucTheKho {
     // Cài đặt hàm trừu tượng từ lớp cha
     @Override
     public String layThongTinChiTiet() {
-        return "Sản phẩm: " + sanPham.getMaSP() + sanPham.getTenSP() + sanPham.getGiaBan()
-                + sanPham.getHangSX() + sanPham.getSoLuongTon() + sanPham.getNgayNhap() +
-                ", Serial: " + serialIMEI +
-                ", Vị trí kệ: " + viTriKe +
-                ", Số lượng: " + soLuong;
+        // kiểm tra null trước để tránh lỗi NullPointerException (NPE)
+        if (sanPham == null) {
+            return "Sản phẩm: [NULL], Serial: " + serialIMEI
+                    + ", Vị trí: " + viTriKe + ", SL: " + soLuong;
+        }
+
+        // Format rõ ràng và khoảng trắng
+        return String.format(
+                "Sản phẩm: [%s] %s | Giá: %,.0f VNĐ | Hãng: %s | Tồn kho: %d | Ngày nhập: %s\n" +
+                        "Serial: %s | Vị trí: %s | Số lượng: %d | Trạng thái: %s",
+                sanPham.getMaSP(),
+                sanPham.getTenSP(),
+                sanPham.getGiaBan(),
+                sanPham.getHangSX(),
+                sanPham.getSoLuongTon(),
+                sanPham.getNgayNhap(),
+                serialIMEI,
+                viTriKe,
+                soLuong,
+                trangThai
+        );
     }
 
     @Override
@@ -74,6 +90,10 @@ public class SanPhamTrongKho extends ThucTheKho {
 
     @Override
     public String toString() {
-        return sanPham.getMaSP() + "|" + serialIMEI + "|" + ngayNhap.getTime() + "|" + viTriKe + "|" + viTri + "|" + soLuong + "|" + trangThai;
+        if (sanPham == null) {
+            return serialIMEI + "|" + ngayNhap.getTime() + "|" + viTriKe + "|" + viTri + "|" + soLuong + "|" + trangThai;
+        }
+        return sanPham.getMaSP() + "|" + sanPham.getTenSP() + "|" + sanPham.getGiaBan() + "|" + sanPham.getHangSX() + "|" 
+            + serialIMEI + "|" + ngayNhap.getTime() + "|" + viTriKe + "|" + viTri + "|" + soLuong + "|" + trangThai;
     }
 }

@@ -6,11 +6,13 @@ import java.util.*;
 
 class QlyKhachHang {
     private DanhSachKhachHang dskh;
+    private QuanLyTrungTam qltt; // Liên kết với quản lý trung tâm
     private Scanner scanner = new Scanner(System.in);
-    private String fileName = "KhachHang.txt";
+    private String fileName = "src/QuanLyCuaHangBanDienThoai/danhsachKH.txt";
 
     public QlyKhachHang() {
-        dskh = new DanhSachKhachHang();
+        qltt = QuanLyTrungTam.getInstance();
+        dskh = qltt.getDanhSachKhachHang();
     }
 
     private LocalDate nhapNgaySinh() {

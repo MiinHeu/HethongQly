@@ -1,0 +1,5 @@
+# File danh sách sản phẩm - Format: LOAI|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|...
+# DT = Điện thoại: DT|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|imei|cauHinh
+# PK = Phụ kiện: PK|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|loaiPhuKien|tuongThich
+# LK = Linh kiện: LK|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|danhChoSuaChua|thuocBaoHanh
+

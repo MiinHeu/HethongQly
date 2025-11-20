@@ -192,7 +192,7 @@ public class DanhSachKho implements IQuanLyKho {
 
     // Ghi log nhập xuất
     private void ghiLogNhapXuat(String noiDung) {
-        try (FileWriter fw = new FileWriter("QuanLyCuaHangBanDienThoai/lichsu_nhapxuat.txt", true)) {
+        try (FileWriter fw = new FileWriter("src/QuanLyCuaHangBanDienThoai/lichsu_nhapxuat.txt", true)) {
             fw.write(new Date() + ": " + noiDung + "\n");
         } catch (IOException e) {
             System.out.println("Lỗi ghi log: " + e.getMessage());
