@@ -25,4 +25,11 @@ abstract class ConNguoi {
     public String getSdt() { return sdt; }
     public String getEmail() { return email; }
     public LocalDate getNgaySinh() { return ngaySinh; }
+    
+    // Setter methods
+    public void setMa(String ma) { this.ma = ma; }
+    public void setTen(String ten) { this.ten = ten; }
+    public void setSdt(String sdt) { this.sdt = sdt; }
+    public void setEmail(String email) { this.email = email; }
+    public void setNgaySinh(LocalDate ngaySinh) { this.ngaySinh = ngaySinh; }
 }

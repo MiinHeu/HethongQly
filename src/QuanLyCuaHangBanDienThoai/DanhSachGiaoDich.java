@@ -51,7 +51,7 @@ public class DanhSachGiaoDich {
         return null;
     }
     
-    // Tìm kiếm giao dịch theo ngày
+    // Tìm kiếm giao dịch theo ngày (Date)
     public List<GiaoDich> timTheoNgay(Date ngay) {
         List<GiaoDich> ketQua = new ArrayList<>();
         for (GiaoDich gd : danhSach) {
@@ -62,6 +62,46 @@ public class DanhSachGiaoDich {
         return ketQua;
     }
     
+    // Tim theo ngay (String format)
+    public List<GiaoDich> timTheoNgay(String ngay) {
+        List<GiaoDich> kq = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for (GiaoDich gd : danhSach) {
+            String ngayGD = sdf.format(gd.getNgayGD());
+            if (ngayGD.equals(ngay)) {
+                kq.add(gd);
+            }
+        }
+        return kq;
+    }
+
+    // Tim theo nguoi thuc hien
+    public List<GiaoDich> timTheoNguoi(String nguoi) {
+        List<GiaoDich> kq = new ArrayList<>();
+        for (GiaoDich gd : danhSach) {
+            if (gd.getNguoiThucHien().toLowerCase().contains(nguoi.toLowerCase())) {
+                kq.add(gd);
+            }
+        }
+        return kq;
+    }
+
+    // Tim theo loai giao dich
+    public List<GiaoDich> timTheoLoai(String loai) {
+        List<GiaoDich> kq = new ArrayList<>();
+        for (GiaoDich gd : danhSach) {
+            String tenClass = gd.getClass().getSimpleName().toLowerCase();
+            if (tenClass.contains(loai.toLowerCase())) {
+                kq.add(gd);
+            }
+        }
+        return kq;
+    }
+    // Lay danh sach
+    public List<GiaoDich> layDanhSach() {
+        return danhSach;
+    }
+
     // Lấy danh sách tất cả giao dịch
     public List<GiaoDich> getDanhSach() {
         return new ArrayList<>(danhSach);

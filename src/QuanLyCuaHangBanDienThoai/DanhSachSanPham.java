@@ -68,6 +68,21 @@ public class DanhSachSanPham implements IQuanLySanPham {
                 .filter(sp -> sp.getHangSX().equalsIgnoreCase(hangSX))
                 .collect(Collectors.toList());
     }
+    // Tim theo loai san pham
+    public List<SanPham> timTheoLoai(String loai) {
+        List<SanPham> kq = new ArrayList<>();
+        for (SanPham sp : danhSach) {
+            if (sp.getLoaiSP().toLowerCase().contains(loai.toLowerCase())) {
+                kq.add(sp);
+            }
+        }
+        return kq;
+    }
+
+    // Lay danh sach (alias)
+    public List<SanPham> layDanhSach() {
+        return getDanhSach();
+    }
 
     @Override
     public List<SanPham> locTheoGia(double min, double max) {

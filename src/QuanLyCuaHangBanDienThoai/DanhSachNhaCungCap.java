@@ -54,8 +54,32 @@ public class DanhSachNhaCungCap {
     // Tìm kiếm theo tên
     public List<NhaCungCap> timTheoTen(String ten) {
         List<NhaCungCap> ketQua = new ArrayList<>();
+        String tenLower = ten.toLowerCase();
         for (NhaCungCap ncc : danhSach) {
-            if (ncc.getTenNhaCungCap().toLowerCase().contains(ten.toLowerCase())) {
+            if (ncc.getTenNhaCungCap().toLowerCase().contains(tenLower)) {
+                ketQua.add(ncc);
+            }
+        }
+        return ketQua;
+    }
+
+    // Tìm kiếm theo sản phẩm cung cấp
+    public List<NhaCungCap> timTheoSanPham(String sanPham) {
+        List<NhaCungCap> ketQua = new ArrayList<>();
+        String spLower = sanPham.toLowerCase();
+        for (NhaCungCap ncc : danhSach) {
+            if (ncc.getSanPhamCungCap().toLowerCase().contains(spLower)) {
+                ketQua.add(ncc);
+            }
+        }
+        return ketQua;
+    }
+
+    // Tìm kiếm theo số điện thoại
+    public List<NhaCungCap> timTheoSDT(String sdt) {
+        List<NhaCungCap> ketQua = new ArrayList<>();
+        for (NhaCungCap ncc : danhSach) {
+            if (ncc.getSoDienThoai().contains(sdt)) {
                 ketQua.add(ncc);
             }
         }
@@ -64,15 +88,26 @@ public class DanhSachNhaCungCap {
 
     // Xem tất cả nhà cung cấp
     public void xemTatCa() {
-        System.out.println("=== DANH SÁCH NHÀ CUNG CẤP ===");
-        for (NhaCungCap ncc : danhSach) {
-            System.out.println("Mã: " + ncc.getMaNhaCungCap() +
-                    " - Tên: " + ncc.getTenNhaCungCap() +
-                    " - Độ tin cậy: " + ncc.getDoTinCay());
+        System.out.println("========== DANH SÁCH NHÀ CUNG CẤP ==========");
+        if (danhSach.isEmpty()) {
+            System.out.println("Chưa có nhà cung cấp nào!");
+        } else {
+            for (NhaCungCap ncc : danhSach) {
+                System.out.println("Mã: " + ncc.getMaNhaCungCap() +
+                        " | Tên: " + ncc.getTenNhaCungCap() +
+                        " | Sản phẩm: " + ncc.getSanPhamCungCap() +
+                        " | Độ tin cậy: " + ncc.getDoTinCay() + "%" +
+                        " | SĐT: " + ncc.getSoDienThoai() +
+                        " | Địa chỉ: " + ncc.getDiaChi());
+            }
+            System.out.println("Tổng số nhà cung cấp: " + danhSach.size());
         }
     }
 
-    // Đánh giá chất lượng - tính tỷ lệ hàng lỗi
+    // ========== CÁC PHƯƠNG THỨC ĐÃ COMMENT (KHÔNG CẦN THIẾT) ==========
+    
+    /*
+    // Đánh giá chất lượng - tính tỷ lệ hàng lỗi - ĐÃ COMMENT
     public void danhGiaChatLuong(String maNCC, int tongHangNhap, int soHangLoi) {
         NhaCungCap ncc = timTheoMa(maNCC);
         if (ncc != null) {
@@ -83,7 +118,7 @@ public class DanhSachNhaCungCap {
         }
     }
 
-    // Lọc nhà cung cấp theo độ tin cậy
+    // Lọc nhà cung cấp theo độ tin cậy - ĐÃ COMMENT
     public List<NhaCungCap> locTheoDoTinCay(double nguongToiThieu) {
         List<NhaCungCap> ketQua = new ArrayList<>();
         for (NhaCungCap ncc : danhSach) {
@@ -93,6 +128,7 @@ public class DanhSachNhaCungCap {
         }
         return ketQua;
     }
+    */
 
     // Ghi dữ liệu ra file
     public void ghiFile(String tenFile) {

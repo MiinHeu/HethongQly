@@ -100,11 +100,34 @@ public class DanhSachKho implements IQuanLyKho {
         return null;
     }
 
+    // Tìm kiếm theo mã sản phẩm
+    public SanPhamTrongKho timTheoMaSanPham(String maSP) {
+        for (SanPhamTrongKho sp : danhSachSanPham) {
+            if (sp.getSanPham() != null && sp.getSanPham().getMaSP().equals(maSP)) {
+                return sp;
+            }
+        }
+        return null;
+    }
+
+    // Tìm kiếm theo tên sản phẩm
+    public List<SanPhamTrongKho> timTheoTen(String ten) {
+        List<SanPhamTrongKho> ketQua = new ArrayList<>();
+        String tenLower = ten.toLowerCase();
+        for (SanPhamTrongKho sp : danhSachSanPham) {
+            if (sp.getSanPham() != null && 
+                sp.getSanPham().getTenSP().toLowerCase().contains(tenLower)) {
+                ketQua.add(sp);
+            }
+        }
+        return ketQua;
+    }
+
     // Tìm kiếm theo vị trí
     public List<SanPhamTrongKho> timTheoViTri(String viTri) {
         List<SanPhamTrongKho> ketQua = new ArrayList<>();
         for (SanPhamTrongKho sp : danhSachSanPham) {
-            if (sp.getViTriKe().equals(viTri)) {
+            if (sp.getViTriKe().equalsIgnoreCase(viTri)) {
                 ketQua.add(sp);
             }
         }
@@ -114,15 +137,46 @@ public class DanhSachKho implements IQuanLyKho {
     // Tìm kiếm theo trạng thái
     public List<SanPhamTrongKho> timTheoTrangThai(String trangThai) {
         List<SanPhamTrongKho> ketQua = new ArrayList<>();
+        String ttLower = trangThai.toLowerCase();
         for (SanPhamTrongKho sp : danhSachSanPham) {
-            if (sp.getTrangThai().equals(trangThai)) {
+            if (sp.getTrangThai().toLowerCase().contains(ttLower)) {
                 ketQua.add(sp);
             }
         }
         return ketQua;
     }
 
-    // Thống kê hàng tồn kho lâu
+    // Tìm kiếm theo hãng sản xuất
+    public List<SanPhamTrongKho> timTheoHang(String hang) {
+        List<SanPhamTrongKho> ketQua = new ArrayList<>();
+        String hangLower = hang.toLowerCase();
+        for (SanPhamTrongKho sp : danhSachSanPham) {
+            if (sp.getSanPham() != null && 
+                sp.getSanPham().getHangSX().toLowerCase().contains(hangLower)) {
+                ketQua.add(sp);
+            }
+        }
+        return ketQua;
+    }
+
+    // Xem tất cả sản phẩm
+    public void xemTatCaSanPham() {
+        System.out.println("========== DANH SÁCH SẢN PHẨM TRONG KHO ==========");
+        if (danhSachSanPham.isEmpty()) {
+            System.out.println("Kho hiện đang trống!");
+        } else {
+            for (SanPhamTrongKho sp : danhSachSanPham) {
+                System.out.println(sp.layThongTinChiTiet());
+                System.out.println("---");
+            }
+            System.out.println("Tổng số sản phẩm: " + danhSachSanPham.size());
+        }
+    }
+
+    // ========== CÁC PHƯƠNG THỨC ĐÃ COMMENT (KHÔNG CẦN THIẾT) ==========
+    
+    /*
+    // Thống kê hàng tồn kho lâu - ĐÃ COMMENT
     public List<SanPhamTrongKho> thongKeHangTonLau() {
         List<SanPhamTrongKho> ketQua = new ArrayList<>();
         for (SanPhamTrongKho sp : danhSachSanPham) {
@@ -133,7 +187,7 @@ public class DanhSachKho implements IQuanLyKho {
         return ketQua;
     }
 
-    // Thống kê hàng sắp hết
+    // Thống kê hàng sắp hết - ĐÃ COMMENT
     public List<SanPhamTrongKho> thongKeHangSapHet() {
         List<SanPhamTrongKho> ketQua = new ArrayList<>();
         for (SanPhamTrongKho sp : danhSachSanPham) {
@@ -144,7 +198,7 @@ public class DanhSachKho implements IQuanLyKho {
         return ketQua;
     }
 
-    // Kiểm kho - so sánh thực tế với hệ thống
+    // Kiểm kho - so sánh thực tế với hệ thống - ĐÃ COMMENT
     public void kiemKho(String serial, int soLuongThucTe) {
         SanPhamTrongKho sp = timTheoSerial(serial);
         if (sp != null) {
@@ -156,25 +210,17 @@ public class DanhSachKho implements IQuanLyKho {
         }
     }
 
-    // Thêm linh kiện
+    // Thêm linh kiện - ĐÃ COMMENT
     public void themLinhKien(LinhKienTonKho lk) {
         danhSachLinhKien.add(lk);
     }
 
-    // Thêm hàng lỗi
+    // Thêm hàng lỗi - ĐÃ COMMENT
     public void themHangLoi(HangLoiCanXuLy hl) {
         danhSachHangLoi.add(hl);
     }
 
-    // Xem tất cả sản phẩm
-    public void xemTatCaSanPham() {
-        System.out.println("=== DANH SÁCH SẢN PHẨM TRONG KHO ===");
-        for (SanPhamTrongKho sp : danhSachSanPham) {
-            System.out.println(sp.layThongTinChiTiet());
-        }
-    }
-
-    // Xem tất cả linh kiện
+    // Xem tất cả linh kiện - ĐÃ COMMENT
     public void xemTatCaLinhKien() {
         System.out.println("=== DANH SÁCH LINH KIỆN TỒN KHO ===");
         for (LinhKienTonKho lk : danhSachLinhKien) {
@@ -182,13 +228,14 @@ public class DanhSachKho implements IQuanLyKho {
         }
     }
 
-    // Xem tất cả hàng lỗi
+    // Xem tất cả hàng lỗi - ĐÃ COMMENT
     public void xemTatCaHangLoi() {
         System.out.println("=== DANH SÁCH HÀNG LỖI CẦN XỬ LÝ ===");
         for (HangLoiCanXuLy hl : danhSachHangLoi) {
             System.out.println(hl.layThongTinChiTiet());
         }
     }
+    */
 
     // Ghi log nhập xuất
     private void ghiLogNhapXuat(String noiDung) {
@@ -213,15 +260,41 @@ public class DanhSachKho implements IQuanLyKho {
 
     // Đọc dữ liệu từ file
     public void docFile(String tenFile) {
+        danhSachSanPham.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(tenFile))) {
             String dong;
             while ((dong = br.readLine()) != null) {
+                dong = dong.trim();
+                if (dong.isEmpty() || dong.startsWith("#")) continue;
+                
                 String[] data = dong.split("\\|");
-                if (data.length >= 7) {
-                    // Đọc và tái tạo đối tượng từ file
-                    System.out.println("Đã đọc: " + dong);
+                if (data.length >= 10) {
+                    try {
+                        // Format: maSP|tenSP|giaBan|hangSX|serial|ngayNhap|viTriKe|viTri|soLuong|trangThai
+                        String maSP = data[0];
+                        String tenSP = data[1];
+                        double giaBan = Double.parseDouble(data[2]);
+                        String hangSX = data[3];
+                        String serial = data[4];
+                        long ngayNhapTime = Long.parseLong(data[5]);
+                        Date ngayNhap = new Date(ngayNhapTime);
+                        String viTriKe = data[6];
+                        String viTri = data[7];
+                        int soLuong = Integer.parseInt(data[8]);
+                        String trangThai = data[9];
+                        
+                        // Tạo sản phẩm đơn giản (có thể cải thiện sau)
+                        SanPham sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuong, "", "Khác", "");
+                        SanPhamTrongKho spk = new SanPhamTrongKho(sp, serial, ngayNhap, viTriKe, viTri, soLuong, trangThai);
+                        danhSachSanPham.add(spk);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Lỗi định dạng dữ liệu: " + dong);
+                    }
                 }
             }
+            System.out.println("Đọc file '" + tenFile + "' thành công! Đã tải " + danhSachSanPham.size() + " sản phẩm.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Không tìm thấy file: " + tenFile);
         } catch (IOException e) {
             System.out.println("Lỗi đọc file: " + e.getMessage());
         }

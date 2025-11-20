@@ -1,5 +1,6 @@
 package QuanLyCuaHangBanDienThoai;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class QlyGiaoDich {
@@ -13,26 +14,23 @@ public class QlyGiaoDich {
         dsgd = qltt.getDanhSachGiaoDich();
     }
 
+//menu chính
+
     public void menu() {
         int choice;
         do {
-            System.out.println("\n===== QUẢN LÝ GIAO DỊCH =====");
-            System.out.println("1. Thêm Giao dịch mới");
-            System.out.println("2. Sửa thông tin Giao dịch");
-            System.out.println("3. Xóa Giao dịch");
-            System.out.println("4. Tìm kiếm Giao dịch");
-            System.out.println("5. Xem danh sách Giao dịch");
-            System.out.println("6. Tải danh sách từ file");
-            System.out.println("7. Xuất danh sách ra file");
-            System.out.println("8. Quay trở về giao diện chính");
-            System.out.print("Chọn chức năng: ");
-            
-            while (!scanner.hasNextInt()) {
-                System.out.println("Vui lòng nhập một số nguyên!");
-                scanner.next();
-            }
+            System.out.println("\n--- QUAN LY GIAO DICH ---");
+            System.out.println("1. Them giao dich");
+            System.out.println("2. Sua thong tin giao dich");
+            System.out.println("3. Xoa giao dich");
+            System.out.println("4. Tim kiem giao dich");
+            System.out.println("5. Xem danh sach giao dich");
+            System.out.println("6. Tai du lieu tu file");
+            System.out.println("7. Xuat du lieu ra file");
+            System.out.println("8. Quay lai");
+            System.out.print("Chon: ");
             choice = scanner.nextInt();
-            scanner.nextLine(); // Đọc dòng trống sau khi đọc số
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -48,274 +46,298 @@ public class QlyGiaoDich {
                     timKiemGiaoDich();
                     break;
                 case 5:
-                    System.out.println("\n--- DANH SÁCH GIAO DỊCH ---");
-                    dsgd.xuatTatCa();
+                    xemDanhSach();
                     break;
                 case 6:
-                    qltt.taiDuLieuTuFile();
+                    taiDuLieu();
                     break;
                 case 7:
-                    qltt.luuDuLieuRaFile();
+                    xuatDuLieu();
                     break;
                 case 8:
-                    System.out.println("Đã quay lại menu chính.");
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                    System.out.println("Lua chon khong hop le!");
             }
         } while (choice != 8);
     }
 
+// ===== 1. THEM GIAO DICH =====
+
     private void themGiaoDich() {
-        System.out.println("\n--- CHỌN LOẠI GIAO DỊCH ---");
-        System.out.println("1. Hóa đơn bán hàng");
-        System.out.println("2. Phiếu nhập hàng");
-        System.out.println("3. Phiếu bảo hành");
-        System.out.print("Chọn loại: ");
-        int loai = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            System.out.println("\n--- THEM GIAO DICH ---");
 
-        String maGD = GiaoDichHelper.sinhMaHoaDon();
-        Date ngayGD = new Date();
-        
-        System.out.print("Nhập tên người thực hiện: ");
-        String nguoiThucHien = scanner.nextLine();
+            System.out.println("Chon loai giao dich:");
+            System.out.println("1. Hoa don ban hang");
+            System.out.println("2. Phieu nhap hang");
+            System.out.println("3. Phieu bao hanh");
+            System.out.print("Chon: ");
+            int loai = scanner.nextInt();
+            scanner.nextLine();
 
-        GiaoDich gd = null;
+            String maGD = GiaoDichHelper.sinhMaHoaDon();
+            Date ngayGD = new Date();
 
-        switch (loai) {
-            case 1: // Hóa đơn bán
-                System.out.print("Nhập mã khách hàng: ");
-                String maKH = scanner.nextLine();
-                
-                // Kiểm tra khách hàng có tồn tại không
+            System.out.print("Nguoi thuc hien: ");
+            String nguoiThucHien = scanner.nextLine().trim();
+
+            GiaoDich gd = null;
+
+            if (loai == 1) {
+                // Hoa don ban
+                System.out.print("Ma khach hang: ");
+                String maKH = scanner.nextLine().trim();
+
                 KhachHang kh = qltt.getDanhSachKhachHang().timTheoMa(maKH);
                 if (kh == null) {
-                    System.out.println("Lỗi: Không tìm thấy khách hàng với mã: " + maKH);
-                    System.out.println("Vui lòng thêm khách hàng trước khi tạo hóa đơn.");
+                    System.out.println("Loi: Khong tim thay khach hang!");
                     return;
                 }
-                
-                System.out.println("Khách hàng: " + kh.getTen() + " - Hạng: " + kh.getHangThanhVien());
-                
-                HoaDonBan hdb = new HoaDonBan(maGD, ngayGD, nguoiThucHien, maKH);
-                
-                while (true) {
-                    System.out.print("Thêm sản phẩm vào hóa đơn? (y/n): ");
-                    String confirm = scanner.nextLine();
-                    if (confirm.equalsIgnoreCase("n")) break;
 
-                    System.out.print("  - Mã SP: ");
-                    String maSP = scanner.nextLine();
-                    
-                    // Kiểm tra sản phẩm có tồn tại không
-                    SanPham sp = qltt.getDanhSachSanPham().timTheoMa(maSP);
-                    if (sp == null) {
-                        System.out.println("  Lỗi: Không tìm thấy sản phẩm với mã: " + maSP);
-                        continue;
-                    }
-                    
-                    System.out.println("  Sản phẩm: " + sp.getTenSP() + " - Giá: " + 
-                        GiaoDichHelper.formatTien(sp.getGiaBan()) + " - Tồn kho: " + sp.getSoLuongTon());
-                    
-                    System.out.print("  - Số lượng: ");
-                    int sl = scanner.nextInt();
-                    scanner.nextLine();
-                    
-                    // Kiểm tra số lượng tồn kho
-                    if (sl > sp.getSoLuongTon()) {
-                        System.out.println("  Lỗi: Số lượng tồn kho không đủ! Chỉ còn " + sp.getSoLuongTon());
-                        continue;
-                    }
-                    
-                    if (sl <= 0) {
-                        System.out.println("  Lỗi: Số lượng phải lớn hơn 0!");
-                        continue;
-                    }
+                gd = new HoaDonBan(maGD, ngayGD, nguoiThucHien, maKH);
 
-                    // Lấy đơn giá từ sản phẩm (chiết khấu sẽ tính ở tổng tiền)
-                    double donGia = sp.getGiaBan();
-                    
-                    System.out.println("  Đơn giá: " + GiaoDichHelper.formatTien(donGia));
+            } else if (loai == 2) {
+                // Phieu nhap
+                System.out.print("Ma nha cung cap: ");
+                String maNCC = scanner.nextLine().trim();
 
-                    hdb.themChiTiet(new ChiTietGiaoDich(maSP, sl, donGia));
-                }
-                
-                // Kiểm tra hóa đơn có sản phẩm không
-                if (hdb.getDanhSachChiTiet().isEmpty()) {
-                    System.out.println("Hóa đơn không có sản phẩm nào. Hủy tạo hóa đơn.");
-                    return;
-                }
-                
-                // Xử lý bán hàng (liên kết các module)
-                if (qltt.xuLyBanHang(hdb)) {
-                    gd = hdb;
-                    System.out.println("Tạo hóa đơn thành công! Mã GD: " + maGD);
-                } else {
-                    System.out.println("Lỗi khi xử lý bán hàng. Hủy tạo hóa đơn.");
-                    return;
-                }
-                break;
-
-            case 2: // Phiếu nhập
-                System.out.print("Nhập mã nhà cung cấp: ");
-                String maNCC = scanner.nextLine();
-                
-                // Kiểm tra nhà cung cấp có tồn tại không
                 NhaCungCap ncc = qltt.getDanhSachNhaCungCap().timTheoMa(maNCC);
                 if (ncc == null) {
-                    var dsNCC = qltt.getDanhSachNhaCungCap().timTheoTen(maNCC);
-                    if (dsNCC.isEmpty()) {
-                        System.out.println("Lỗi: Không tìm thấy nhà cung cấp: " + maNCC);
-                        System.out.println("Vui lòng thêm nhà cung cấp trước khi nhập hàng.");
-                        return;
-                    }
-                    ncc = dsNCC.get(0);
-                    maNCC = ncc.getMaNhaCungCap();
+                    System.out.println("Loi: Khong tim thay nha cung cap!");
+                    return;
                 }
-                
-                System.out.println("Nhà cung cấp: " + ncc.getTenNhaCungCap() + 
-                    " - Độ tin cậy: " + ncc.getDoTinCay() + "%");
-                
-                System.out.print("Nhập mã sản phẩm: ");
-                String maSPNhap = scanner.nextLine();
-                System.out.print("Nhập tên sản phẩm: ");
-                String tenSPNhap = scanner.nextLine();
-                System.out.print("Nhập hãng sản xuất: ");
-                String hangSXNhap = scanner.nextLine();
-                System.out.print("Nhập giá bán: ");
-                double giaBanNhap = scanner.nextDouble();
-                System.out.print("Nhập số lượng: ");
-                int slNhap = scanner.nextInt();
+
+                System.out.print("So luong: ");
+                int soLuong = scanner.nextInt();
                 scanner.nextLine();
-                System.out.print("Nhập giá nhập (đơn giá): ");
+
+                System.out.print("Gia nhap: ");
                 double giaNhap = scanner.nextDouble();
                 scanner.nextLine();
-                System.out.print("Nhập ngày nhập (dd/MM/yyyy): ");
-                String ngayNhapStr = scanner.nextLine();
-                System.out.print("Nhập loại sản phẩm (Điện thoại/Phụ kiện/Linh kiện): ");
-                String loaiSPNhap = scanner.nextLine();
-                
-                if (slNhap <= 0 || giaNhap <= 0 || giaBanNhap <= 0) {
-                    System.out.println("Lỗi: Số lượng và giá phải lớn hơn 0!");
-                    return;
-                }
-                
-                PhieuNhapHang pnh = new PhieuNhapHang(maGD, ngayGD, nguoiThucHien, maNCC, slNhap, giaNhap);
-                
-                // Xử lý nhập hàng (liên kết các module)
-                if (qltt.xuLyNhapHang(pnh, maSPNhap, tenSPNhap, giaBanNhap, hangSXNhap, ngayNhapStr, loaiSPNhap)) {
-                    gd = pnh;
-                    System.out.println("Tạo phiếu nhập hàng thành công! Mã GD: " + maGD);
-                } else {
-                    System.out.println("Lỗi khi xử lý nhập hàng. Hủy tạo phiếu nhập.");
-                    return;
-                }
-                break;
 
-            case 3: // Phiếu bảo hành
-                System.out.print("Nhập mã sản phẩm bảo hành: ");
-                String maSPBH = scanner.nextLine();
-                
-                // Kiểm tra sản phẩm có tồn tại không
-                SanPham spBH = qltt.getDanhSachSanPham().timTheoMa(maSPBH);
-                if (spBH == null) {
-                    System.out.println("Lỗi: Không tìm thấy sản phẩm với mã: " + maSPBH);
-                    return;
-                }
-                
-                System.out.println("Sản phẩm: " + spBH.getTenSP() + " - Hãng: " + spBH.getHangSX());
-                System.out.print("Mô tả lỗi: ");
-                String loi = scanner.nextLine();
-                System.out.print("Phí sửa chữa: ");
-                double phi = scanner.nextDouble();
+                gd = new PhieuNhapHang(maGD, ngayGD, nguoiThucHien, maNCC, soLuong, giaNhap);
+
+            } else if (loai == 3) {
+                // Phieu bao hanh
+                System.out.print("Ma san pham: ");
+                String maSP = scanner.nextLine().trim();
+
+                System.out.print("Loi hong: ");
+                String loiHong = scanner.nextLine().trim();
+
+                System.out.print("Phi sua chua: ");
+                double phiSuaChua = scanner.nextDouble();
                 scanner.nextLine();
-                
-                if (phi < 0) {
-                    System.out.println("Lỗi: Phí sửa chữa không được âm!");
-                    return;
-                }
-                
-                gd = new PhieuBaoHanh(maGD, ngayGD, nguoiThucHien, maSPBH, loi, phi);
-                dsgd.themGiaoDich(gd);
-                System.out.println("Tạo phiếu bảo hành thành công! Mã GD: " + maGD);
+
+                gd = new PhieuBaoHanh(maGD, ngayGD, nguoiThucHien, maSP, loiHong, phiSuaChua);
+
+            } else {
+                System.out.println("Lua chon khong hop le!");
                 return;
+            }
 
-            default:
-                System.out.println("Loại giao dịch không hợp lệ!");
-                return;
-        }
+            dsgd.themGiaoDich(gd);
+            System.out.println("\nThem thanh cong! Ma GD: " + maGD);
 
-        // Giao dịch đã được thêm trong các phương thức xử lý riêng
-    }
-
-    private void xoaGiaoDich() {
-        System.out.print("Nhập mã giao dịch cần xóa: ");
-        String maXoa = scanner.nextLine();
-        if (dsgd.xoaGiaoDich(maXoa)) {
-            System.out.println("Xóa giao dịch thành công!");
-        } else {
-            System.out.println("Không tìm thấy giao dịch với mã: " + maXoa);
+        } catch (Exception e) {
+            System.out.println("Loi: " + e.getMessage());
+            scanner.nextLine();
         }
     }
 
-    private void timKiemGiaoDich() {
-        System.out.println("\n--- TÌM KIẾM GIAO DỊCH ---");
-        System.out.println("1. Tìm theo mã giao dịch");
-        System.out.println("2. Tìm theo ngày");
-        System.out.print("Chọn: ");
-        int chon = scanner.nextInt();
-        scanner.nextLine();
-        
-        switch (chon) {
-            case 1:
-                System.out.print("Nhập mã giao dịch: ");
-                String maTim = scanner.nextLine();
-                GiaoDich gd = dsgd.timTheoMa(maTim);
-                if (gd != null) {
-                    gd.xuatThongTin();
-                } else {
-                    System.out.println("Không tìm thấy giao dịch!");
-                }
-                break;
-            case 2:
-                System.out.print("Nhập ngày (dd/MM/yyyy): ");
-                String ngayStr = scanner.nextLine();
-                try {
-                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-                    java.util.Date ngay = sdf.parse(ngayStr);
-                    java.util.List<GiaoDich> ketQua = dsgd.timTheoNgay(ngay);
-                    if (ketQua.isEmpty()) {
-                        System.out.println("Không có giao dịch nào trong ngày này!");
-                    } else {
-                        System.out.println("Tìm thấy " + ketQua.size() + " giao dịch:");
-                        for (GiaoDich g : ketQua) {
-                            g.xuatThongTin();
-                            System.out.println();
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("Ngày không hợp lệ!");
-                }
-                break;
-            default:
-                System.out.println("Lựa chọn không hợp lệ!");
-        }
-    }
+// ===== 2. SUA GIAO DICH =====
 
     private void suaGiaoDich() {
-        System.out.print("Nhập mã giao dịch cần sửa: ");
-        String maSua = scanner.nextLine();
-        GiaoDich gdCu = dsgd.timTheoMa(maSua);
-        if (gdCu == null) {
-            System.out.println("Không tìm thấy giao dịch!");
-            return;
+        try {
+            System.out.println("\n--- SUA GIAO DICH ---");
+
+            System.out.print("Nhap ma giao dich: ");
+            String maGD = scanner.nextLine().trim();
+
+            GiaoDich gd = dsgd.timTheoMa(maGD);
+            if (gd == null) {
+                System.out.println("Khong tim thay!");
+                return;
+            }
+
+            System.out.println("\nThong tin hien tai:");
+            System.out.println("Ma: " + gd.getMaGD());
+            System.out.println("Ngay: " + gd.getNgayGD());
+            System.out.println("Nguoi thuc hien: " + gd.getNguoiThucHien());
+            System.out.println("Tong tien: " + gd.getTongTien());
+
+            System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
+
+            System.out.print("Nguoi thuc hien [" + gd.getNguoiThucHien() + "]: ");
+            String nguoi = scanner.nextLine().trim();
+            if (!nguoi.isEmpty()) gd.setNguoiThucHien(nguoi);
+
+            System.out.print("Tong tien [" + gd.getTongTien() + "]: ");
+            String tienStr = scanner.nextLine().trim();
+            if (!tienStr.isEmpty()) {
+                try {
+                    double tien = Double.parseDouble(tienStr);
+                    if (tien >= 0) gd.setTongTien(tien);
+                } catch (NumberFormatException e) {
+                }
+            }
+
+            // Sua thuoc tinh rieng
+            if (gd instanceof HoaDonBan) {
+                System.out.println("(Khong the sua thuoc tinh rieng cua Hoa don ban)");
+            } else if (gd instanceof PhieuNhapHang) {
+                System.out.println("(Khong the sua thuoc tinh rieng cua Phieu nhap hang)");
+            } else if (gd instanceof PhieuBaoHanh) {
+                System.out.println("(Khong the sua thuoc tinh rieng cua Phieu bao hanh)");
+            }
+
+            System.out.println("\nCap nhat thanh cong!");
+
+        } catch (Exception e) {
+            System.out.println("Loi: " + e.getMessage());
         }
-        
-        System.out.println("Thông tin giao dịch hiện tại:");
-        gdCu.xuatThongTin();
-        System.out.println("\nVui lòng tạo giao dịch mới để thay thế:");
-        themGiaoDich();
-        System.out.println("Lưu ý: Giao dịch mới sẽ có mã khác. Để sửa đúng, vui lòng xóa giao dịch cũ và tạo mới.");
+    }
+
+// ===== 3. XOA GIAO DICH =====
+
+    private void xoaGiaoDich() {
+        try {
+            System.out.println("\n--- XOA GIAO DICH ---");
+
+            System.out.print("Nhap ma giao dich: ");
+            String maGD = scanner.nextLine().trim();
+
+            GiaoDich gd = dsgd.timTheoMa(maGD);
+            if (gd == null) {
+                System.out.println("Khong tim thay!");
+                return;
+            }
+
+            System.out.println("\nThong tin giao dich:");
+            System.out.println("Ma: " + gd.getMaGD());
+            System.out.println("Ngay: " + gd.getNgayGD());
+            System.out.println("Tong tien: " + gd.getTongTien());
+
+            System.out.print("\nXac nhan xoa? (y/n): ");
+            String xacNhan = scanner.nextLine().trim();
+
+            if (xacNhan.equalsIgnoreCase("y")) {
+                if (dsgd.xoaGiaoDich(maGD)) {
+                    System.out.println("Xoa thanh cong!");
+                } else {
+                    System.out.println("Loi khi xoa!");
+                }
+            } else {
+                System.out.println("Da huy!");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Loi: " + e.getMessage());
+        }
+    }
+
+// ===== 4. TIM KIEM GIAO DICH =====
+
+    private void timKiemGiaoDich() {
+        try {
+            System.out.println("\n--- TIM KIEM GIAO DICH ---");
+            System.out.println("1. Tim theo Ma");
+            System.out.println("2. Tim theo Ngay");
+            System.out.println("3. Tim theo Nguoi thuc hien");
+            System.out.println("4. Tim theo Loai");
+            System.out.print("Chon: ");
+            int chon = scanner.nextInt();
+            scanner.nextLine();
+
+            if (chon == 1) {
+                System.out.print("Nhap ma: ");
+                String ma = scanner.nextLine().trim();
+                GiaoDich gd = dsgd.timTheoMa(ma);
+                if (gd != null) {
+                    System.out.println("\nTim thay:");
+                    hienThiGD(gd);
+                } else {
+                    System.out.println("Khong tim thay!");
+                }
+            } else if (chon == 2) {
+                System.out.print("Nhap ngay (dd/MM/yyyy): ");
+                String ngay = scanner.nextLine().trim();
+                List<GiaoDich> ds = dsgd.timTheoNgay(ngay);
+                hienThiDanhSachGD(ds);
+            } else if (chon == 3) {
+                System.out.print("Nhap nguoi thuc hien: ");
+                String nguoi = scanner.nextLine().trim();
+                List<GiaoDich> ds = dsgd.timTheoNguoi(nguoi);
+                hienThiDanhSachGD(ds);
+            } else if (chon == 4) {
+                System.out.print("Nhap loai (HoaDonBan/PhieuNhapHang/PhieuBaoHanh): ");
+                String loai = scanner.nextLine().trim();
+                List<GiaoDich> ds = dsgd.timTheoLoai(loai);
+                hienThiDanhSachGD(ds);
+            } else {
+                System.out.println("Lua chon khong hop le!");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Loi: " + e.getMessage());
+            scanner.nextLine();
+        }
+    }
+
+    private void hienThiGD(GiaoDich gd) {
+        System.out.println("Ma: " + gd.getMaGD());
+        System.out.println("Ngay: " + gd.getNgayGD());
+        System.out.println("Nguoi thuc hien: " + gd.getNguoiThucHien());
+        System.out.println("Tong tien: " + gd.getTongTien());
+        System.out.println("Loai: " + gd.getClass().getSimpleName());
+    }
+
+    private void hienThiDanhSachGD(List<GiaoDich> ds) {
+        if (ds.isEmpty()) {
+            System.out.println("Khong tim thay!");
+        } else {
+            System.out.println("\nTim thay " + ds.size() + " giao dich:");
+            for (int i = 0; i < ds.size(); i++) {
+                System.out.println("\n--- Giao dich " + (i + 1) + " ---");
+                hienThiGD(ds.get(i));
+            }
+        }
+    }
+
+// ===== 5. XEM DANH SACH =====
+
+    private void xemDanhSach() {
+        System.out.println("\n--- DANH SACH GIAO DICH ---");
+        List<GiaoDich> ds = dsgd.layDanhSach();
+        if (ds.isEmpty()) {
+            System.out.println("Danh sach trong!");
+        } else {
+            for (int i = 0; i < ds.size(); i++) {
+                System.out.println("\n--- Giao dich " + (i + 1) + " ---");
+                hienThiGD(ds.get(i));
+            }
+            System.out.println("\nTong so: " + ds.size());
+        }
+    }
+
+// ===== 6. TAI/XUAT FILE =====
+
+    private void taiDuLieu() {
+        try {
+            dsgd.docFile(fileName);
+            System.out.println("Da tai du lieu tu file!");
+        } catch (Exception e) {
+            System.out.println("Loi khi tai file: " + e.getMessage());
+        }
+    }
+
+    private void xuatDuLieu() {
+        try {
+            dsgd.ghiFile(fileName);
+            System.out.println("Da xuat du lieu ra file!");
+        } catch (Exception e) {
+            System.out.println("Loi khi xuat file: " + e.getMessage());
+        }
     }
 }

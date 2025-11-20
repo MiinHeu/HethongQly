@@ -16,69 +16,55 @@ public class QlyKhoNcc {
         dsNcc = qltt.getDanhSachNhaCungCap();
     }
 
-    // Menu chính
+    // Menu chính - ĐÃ ĐƠN GIẢN HÓA
     public void menu() {
         int luaChon;
         do {
             System.out.println("\n QUẢN LÝ KHO & NHÀ CUNG CẤP ");
-            System.out.println("1. Quản lý sản phẩm trong kho");
-            System.out.println("2. Quản lý linh kiện tồn kho");
-            System.out.println("3. Quản lý hàng lỗi cần xử lý");
-            System.out.println("4. Quản lý nhà cung cấp");
-            System.out.println("5. Nghiệp vụ kho");
-            System.out.println("6. Thống kê & báo cáo");
-            System.out.println("7. Tải dữ liệu từ file");
-            System.out.println("8. Lưu dữ liệu ra file");
-            System.out.println("9. Quay lại menu chính");
+            System.out.println("1. Quản lý kho");
+            System.out.println("2. Quản lý nhà cung cấp");
+            System.out.println("3. Tải dữ liệu từ file");
+            System.out.println("4. Lưu dữ liệu ra file");
+            System.out.println("5. Quay lại menu chính");
             System.out.print("Chọn: ");
             luaChon = sc.nextInt();
             sc.nextLine();
 
             switch (luaChon) {
                 case 1:
-                    menuSanPhamTrongKho();
+                    menuKho();
                     break;
                 case 2:
-                    menuLinhKien();
-                    break;
-                case 3:
-                    menuHangLoi();
-                    break;
-                case 4:
                     menuNhaCungCap();
                     break;
-                case 5:
-                    menuNghiepVu();
-                    break;
-                case 6:
-                    menuThongKe();
-                    break;
-                case 7:
+                case 3:
                     taiDuLieu();
                     break;
-                case 8:
+                case 4:
                     luuDuLieu();
                     break;
-                case 9:
+                case 5:
                     System.out.println("Quay lại menu chính...");
                     break;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
-        } while (luaChon != 9);
+        } while (luaChon != 5);
     }
 
-    // Menu sản phẩm
-    private void menuSanPhamTrongKho() {
+    // Menu quản lý kho - ĐÃ ĐƠN GIẢN HÓA
+    private void menuKho() {
         int luaChon;
         do {
-            System.out.println("\n--- QUẢN LÝ SẢN PHẨM TRONG KHO ---");
-            System.out.println("1. Thêm sản phẩm");
-            System.out.println("2. Sửa sản phẩm");
-            System.out.println("3. Xóa sản phẩm");
+            System.out.println("\n========== QUẢN LÝ KHO ==========");
+            System.out.println("1. Thêm sản phẩm vào kho");
+            System.out.println("2. Sửa thông tin sản phẩm");
+            System.out.println("3. Xóa sản phẩm khỏi kho");
             System.out.println("4. Tìm kiếm sản phẩm");
-            System.out.println("5. Xem danh sách sản phẩm");
-            System.out.println("6. Quay lại");
+            System.out.println("5. Xem danh sách sản phẩm trong kho");
+            System.out.println("6. Tải dữ liệu kho từ file");
+            System.out.println("7. Xuất dữ liệu kho ra file");
+            System.out.println("8. Quay lại");
             System.out.print("Chọn: ");
             luaChon = sc.nextInt();
             sc.nextLine();
@@ -100,247 +86,334 @@ public class QlyKhoNcc {
                     dsKho.xemTatCaSanPham();
                     break;
                 case 6:
+                    taiDuLieuKho();
+                    break;
+                case 7:
+                    xuatDuLieuKho();
+                    break;
+                case 8:
                     break;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
-        } while (luaChon != 6);
+        } while (luaChon != 8);
     }
 
-    // Thêm sản phẩm
+    // Them san pham vao kho
     private void themSanPham() {
-        System.out.print("Mã sản phẩm: ");
-        String maSP = sc.nextLine();
-        System.out.print("Tên sản phẩm: ");
-        String tenSP = sc.nextLine();
-        System.out.print("Loại sản phẩm: ");
-        String loai = sc.nextLine();
-        System.out.print("Giá bán: ");
+    try {
+        System.out.println("\n--- THEM SAN PHAM ---");
+        
+        System.out.print("Ma san pham: ");
+        String maSP = sc.nextLine().trim();
+        if (maSP.isEmpty()) {
+            System.out.println("Loi: Ma khong duoc de trong!");
+            return;
+        }
+        
+        if (dsKho.timTheoMaSanPham(maSP) != null) {
+            System.out.println("Loi: Ma da ton tai!");
+            return;
+        }
+        
+        System.out.print("Ten san pham: ");
+        String tenSP = sc.nextLine().trim();
+        if (tenSP.isEmpty()) {
+            System.out.println("Loi: Ten khong duoc de trong!");
+            return;
+        }
+        
+        System.out.print("Gia ban: ");
         double giaBan = sc.nextDouble();
+        if (giaBan <= 0) {
+            System.out.println("Loi: Gia phai lon hon 0!");
+            sc.nextLine();
+            return;
+        }
         sc.nextLine();
-        System.out.print("Hãng sản xuất: ");
-        String hangSX = sc.nextLine();
-        System.out.print("Số lượng tồn: ");
+        
+        System.out.print("Hang san xuat: ");
+        String hangSX = sc.nextLine().trim();
+        
+        System.out.print("So luong: ");
         int soLuongTon = sc.nextInt();
+        if (soLuongTon <= 0) {
+            System.out.println("Loi: So luong phai lon hon 0!");
+            sc.nextLine();
+            return;
+        }
         sc.nextLine();
-        System.out.print("Ngày nhập (dd/MM/yyyy): ");
-        String ngayNhap = sc.nextLine();
-
+        
+        System.out.print("Ngay nhap (dd/MM/yyyy): ");
+        String ngayNhap = sc.nextLine().trim();
+        
+        System.out.print("Vi tri ke (VD: A1): ");
+        String viTriKe = sc.nextLine().trim().toUpperCase();
+        if (viTriKe.isEmpty()) viTriKe = "A1";
+        
+        System.out.println("\nChon loai:");
+        System.out.println("1. Dien thoai");
+        System.out.println("2. Phu kien");
+        System.out.println("3. Linh kien");
+        System.out.print("Chon: ");
+        int loaiChon = sc.nextInt();
+        sc.nextLine();
+        
         SanPham sp;
-        String l = loai == null ? "" : loai.toLowerCase();
-        if (l.contains("điện") || l.contains("dien") || l.contains("đt") ) {
-            System.out.print("Nhập IMEI: ");
-            String imei = sc.nextLine();
-            System.out.print("Nhập cấu hình: ");
-            String cauHinh = sc.nextLine();
+        if (loaiChon == 1) {
+            System.out.print("IMEI: ");
+            String imei = sc.nextLine().trim();
+            System.out.print("Cau hinh: ");
+            String cauHinh = sc.nextLine().trim();
             sp = new DienThoai(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, imei, cauHinh);
-        } else if (l.contains("phụ") || l.contains("phu") || l.contains("phu kien") || l.contains("phukien")) {
-            System.out.print("Loại phụ kiện: ");
-            String loaiPk = sc.nextLine();
-            System.out.print("Tương thích: ");
-            String tuongThich = sc.nextLine();
+        } else if (loaiChon == 2) {
+            System.out.print("Loai phu kien: ");
+            String loaiPk = sc.nextLine().trim();
+            System.out.print("Tuong thich: ");
+            String tuongThich = sc.nextLine().trim();
             sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, loaiPk, tuongThich);
-        } else if (l.contains("linh")) {
-            System.out.print("Dành cho sửa chữa? (y/n): ");
+        } else if (loaiChon == 3) {
+            System.out.print("Danh cho sua chua? (y/n): ");
             boolean danhChoSua = sc.nextLine().equalsIgnoreCase("y");
-            System.out.print("Thuộc bảo hành? (y/n): ");
+            System.out.print("Thuoc bao hanh? (y/n): ");
             boolean thuocBaoHanh = sc.nextLine().equalsIgnoreCase("y");
             sp = new LinhKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, danhChoSua, thuocBaoHanh);
         } else {
-            // default to PhuKien if type not recognized
-            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, "", "");
+            System.out.println("Lua chon khong hop le!");
+            return;
         }
-
+        
         String serial = KhoHelper.sinhSerialNgauNhien();
-        String viTriKe = KhoHelper.ganViTriKe(loai);
-        SanPhamTrongKho spk = new SanPhamTrongKho(sp, serial, new Date(), viTriKe, viTriKe, soLuongTon, "Mới nhập");
+        SanPhamTrongKho spk = new SanPhamTrongKho(sp, serial, new Date(), viTriKe, viTriKe, soLuongTon, "Moi nhap");
         dsKho.themSanPham(spk);
-        System.out.println("Đã thêm! Serial: " + serial);
-    }
-
-    // Sửa sản phẩm
-    private void suaSanPham() {
-        System.out.print("Nhập serial cần sửa: ");
-        String serial = sc.nextLine();
-        System.out.print("Số lượng mới: ");
-        int sl = sc.nextInt();
+        
+        System.out.println("\nThem thanh cong! Serial: " + serial);
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
         sc.nextLine();
-        System.out.print("Trạng thái mới: ");
-        String tt = sc.nextLine();
-
-        if (dsKho.suaSanPham(serial, sl, tt)) {
-            System.out.println("Đã cập nhật!");
-        } else {
-            System.out.println("Không tìm thấy!");
-        }
     }
-
-    // Xóa sản phẩm
+}
+    // Sua san pham
+    private void suaSanPham() {
+    try {
+        System.out.println("\n--- SUA SAN PHAM ---");
+        
+        System.out.print("Nhap serial: ");
+        String serial = sc.nextLine().trim();
+        
+        SanPhamTrongKho spk = dsKho.timTheoSerial(serial);
+        if (spk == null) {
+            System.out.println("Khong tim thay!");
+            return;
+        }
+        
+        System.out.println("\nThong tin hien tai:");
+        System.out.println(spk.layThongTinChiTiet());
+        
+        SanPham sp = spk.getSanPham();
+        
+        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
+        
+        System.out.print("Ten [" + sp.getTenSP() + "]: ");
+        String tenMoi = sc.nextLine().trim();
+        if (!tenMoi.isEmpty()) sp.setTenSP(tenMoi);
+        
+        System.out.print("Gia [" + sp.getGiaBan() + "]: ");
+        String giaStr = sc.nextLine().trim();
+        if (!giaStr.isEmpty()) {
+            try {
+                double giaMoi = Double.parseDouble(giaStr);
+                if (giaMoi > 0) sp.setGiaBan(giaMoi);
+            } catch (NumberFormatException e) {}
+        }
+        
+        System.out.print("Hang [" + sp.getHangSX() + "]: ");
+        String hangMoi = sc.nextLine().trim();
+        if (!hangMoi.isEmpty()) sp.setHangSX(hangMoi);
+        
+        System.out.print("So luong [" + spk.getSoLuong() + "]: ");
+        String slStr = sc.nextLine().trim();
+        if (!slStr.isEmpty()) {
+            try {
+                int slMoi = Integer.parseInt(slStr);
+                if (slMoi >= 0) {
+                    spk.setSoLuong(slMoi);
+                    sp.setSoLuongTon(slMoi);
+                }
+            } catch (NumberFormatException e) {}
+        }
+        
+        System.out.print("Vi tri [" + spk.getViTriKe() + "]: ");
+        String viTriMoi = sc.nextLine().trim().toUpperCase();
+        if (!viTriMoi.isEmpty()) {
+            spk.setViTriKe(viTriMoi);
+            spk.setViTri(viTriMoi);
+        }
+        
+        System.out.print("Trang thai [" + spk.getTrangThai() + "]: ");
+        String ttMoi = sc.nextLine().trim();
+        if (!ttMoi.isEmpty()) spk.setTrangThai(ttMoi);
+        
+        if (sp instanceof DienThoai) {
+            DienThoai dt = (DienThoai) sp;
+            System.out.print("IMEI [" + dt.getImei() + "]: ");
+            String imeiMoi = sc.nextLine().trim();
+            if (!imeiMoi.isEmpty()) dt.setImei(imeiMoi);
+            
+            System.out.print("Cau hinh [" + dt.getCauHinh() + "]: ");
+            String cauHinhMoi = sc.nextLine().trim();
+            if (!cauHinhMoi.isEmpty()) dt.setCauHinh(cauHinhMoi);
+        } else if (sp instanceof PhuKien) {
+            PhuKien pk = (PhuKien) sp;
+            System.out.print("Loai [" + pk.getLoaiPhuKien() + "]: ");
+            String loaiMoi = sc.nextLine().trim();
+            if (!loaiMoi.isEmpty()) pk.setLoaiPhuKien(loaiMoi);
+            
+            System.out.print("Tuong thich [" + pk.getTuongThich() + "]: ");
+            String ttMoi2 = sc.nextLine().trim();
+            if (!ttMoi2.isEmpty()) pk.setTuongThich(ttMoi2);
+        } else if (sp instanceof LinhKien) {
+            LinhKien lk = (LinhKien) sp;
+            System.out.print("Sua chua? (y/n) [" + (lk.isDanhChoSuaChua() ? "y" : "n") + "]: ");
+            String scStr = sc.nextLine().trim();
+            if (!scStr.isEmpty()) lk.setDanhChoSuaChua(scStr.equalsIgnoreCase("y"));
+            
+            System.out.print("Bao hanh? (y/n) [" + (lk.isThuocBaoHanh() ? "y" : "n") + "]: ");
+            String bhStr = sc.nextLine().trim();
+            if (!bhStr.isEmpty()) lk.setThuocBaoHanh(bhStr.equalsIgnoreCase("y"));
+        }
+        
+        System.out.println("\nCap nhat thanh cong!");
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
+        sc.nextLine();
+    }
+}
+    // Xoa san pham
     private void xoaSanPham() {
-        System.out.print("Nhập serial cần xóa: ");
-        String serial = sc.nextLine();
-        if (dsKho.xoaSanPham(serial)) {
-            System.out.println("Đã xóa!");
-        } else {
-            System.out.println("Không tìm thấy!");
+    try {
+        System.out.println("\n--- XOA SAN PHAM ---");
+        
+        System.out.print("Nhap serial: ");
+        String serial = sc.nextLine().trim();
+        
+        SanPhamTrongKho spk = dsKho.timTheoSerial(serial);
+        if (spk == null) {
+            System.out.println("Khong tim thay!");
+            return;
         }
+        
+        System.out.println("\nThong tin san pham:");
+        System.out.println(spk.layThongTinChiTiet());
+        
+        System.out.print("\nXac nhan xoa? (y/n): ");
+        String xacNhan = sc.nextLine().trim();
+        
+        if (xacNhan.equalsIgnoreCase("y")) {
+            if (dsKho.xoaSanPham(serial)) {
+                System.out.println("Xoa thanh cong!");
+            } else {
+                System.out.println("Loi khi xoa!");
+            }
+        } else {
+            System.out.println("Da huy!");
+        }
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
     }
-
-    // Tìm kiếm sản phẩm
+}
+    // Tìm kiếm sản phẩm - LOGIC CHUẨN NGHIỆP VỤ
     private void timKiemSanPham() {
-        System.out.println("1. Tìm theo Serial/IMEI");
-        System.out.println("2. Tìm theo vị trí kệ");
-        System.out.println("3. Tìm theo trạng thái");
-        System.out.print("Chọn: ");
+    try {
+        System.out.println("\n--- TIM KIEM SAN PHAM ---");
+        System.out.println("1. Tim theo Serial");
+        System.out.println("2. Tim theo Ma SP");
+        System.out.println("3. Tim theo Ten");
+        System.out.println("4. Tim theo Vi tri");
+        System.out.println("5. Tim theo Trang thai");
+        System.out.println("6. Tim theo Hang");
+        System.out.print("Chon: ");
         int chon = sc.nextInt();
         sc.nextLine();
 
-        switch (chon) {
-            case 1:
-                System.out.print("Nhập serial: ");
-                String serial = sc.nextLine();
-                SanPhamTrongKho sp = dsKho.timTheoSerial(serial);
-                if (sp != null) {
-                    System.out.println(sp.layThongTinChiTiet());
-                } else {
-                    System.out.println("Không tìm thấy!");
-                }
-                break;
-            case 2:
-                System.out.print("Nhập vị trí: ");
-                String viTri = sc.nextLine();
-                List<SanPhamTrongKho> dsViTri = dsKho.timTheoViTri(viTri);
-                if (dsViTri.isEmpty()) {
-                    System.out.println("Không có sản phẩm!");
-                } else {
-                    for (SanPhamTrongKho s : dsViTri) {
-                        System.out.println(s.layThongTinChiTiet());
-                    }
-                }
-                break;
-            case 3:
-                System.out.print("Nhập trạng thái: ");
-                String trangThai = sc.nextLine();
-                List<SanPhamTrongKho> dsTrangThai = dsKho.timTheoTrangThai(trangThai);
-                if (dsTrangThai.isEmpty()) {
-                    System.out.println("Không có sản phẩm!");
-                } else {
-                    for (SanPhamTrongKho s : dsTrangThai) {
-                        System.out.println(s.layThongTinChiTiet());
-                    }
-                }
-                break;
+        if (chon == 1) {
+            System.out.print("Nhap serial: ");
+            String serial = sc.nextLine().trim();
+            SanPhamTrongKho sp = dsKho.timTheoSerial(serial);
+            if (sp != null) {
+                System.out.println("\nTim thay:");
+                System.out.println(sp.layThongTinChiTiet());
+            } else {
+                System.out.println("Khong tim thay!");
+            }
+        } else if (chon == 2) {
+            System.out.print("Nhap ma SP: ");
+            String maSP = sc.nextLine().trim();
+            SanPhamTrongKho sp = dsKho.timTheoMaSanPham(maSP);
+            if (sp != null) {
+                System.out.println("\nTim thay:");
+                System.out.println(sp.layThongTinChiTiet());
+            } else {
+                System.out.println("Khong tim thay!");
+            }
+        } else if (chon == 3) {
+            System.out.print("Nhap ten: ");
+            String ten = sc.nextLine().trim();
+            List<SanPhamTrongKho> ds = dsKho.timTheoTen(ten);
+            hienThiKetQua(ds);
+        } else if (chon == 4) {
+            System.out.print("Nhap vi tri: ");
+            String viTri = sc.nextLine().trim().toUpperCase();
+            List<SanPhamTrongKho> ds = dsKho.timTheoViTri(viTri);
+            hienThiKetQua(ds);
+        } else if (chon == 5) {
+            System.out.print("Nhap trang thai: ");
+            String trangThai = sc.nextLine().trim();
+            List<SanPhamTrongKho> ds = dsKho.timTheoTrangThai(trangThai);
+            hienThiKetQua(ds);
+        } else if (chon == 6) {
+            System.out.print("Nhap hang: ");
+            String hang = sc.nextLine().trim();
+            List<SanPhamTrongKho> ds = dsKho.timTheoHang(hang);
+            hienThiKetQua(ds);
+        } else {
+            System.out.println("Lua chon khong hop le!");
+        }
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
+        sc.nextLine();
+    }
+}
+
+private void hienThiKetQua(List<SanPhamTrongKho> ds) {
+    if (ds.isEmpty()) {
+        System.out.println("Khong tim thay!");
+    } else {
+        System.out.println("\nTim thay " + ds.size() + " san pham:");
+        for (int i = 0; i < ds.size(); i++) {
+            System.out.println("\n--- San pham " + (i + 1) + " ---");
+            System.out.println(ds.get(i).layThongTinChiTiet());
         }
     }
+}
 
-    // Menu linh kiện
-    private void menuLinhKien() {
-        int luaChon;
-        do {
-            System.out.println("\n--- QUẢN LÝ LINH KIỆN TỒN KHO ---");
-            System.out.println("1. Thêm linh kiện");
-            System.out.println("2. Xem danh sách linh kiện");
-            System.out.println("3. Quay lại");
-            System.out.print("Chọn: ");
-            luaChon = sc.nextInt();
-            sc.nextLine();
-
-            switch (luaChon) {
-                case 1:
-                    themLinhKien();
-                    break;
-                case 2:
-                    dsKho.xemTatCaLinhKien();
-                    break;
-                case 3:
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        } while (luaChon != 3);
-    }
-
-    // Thêm linh kiện
-    private void themLinhKien() {
-        System.out.print("Mã linh kiện: ");
-        String ma = sc.nextLine();
-        System.out.print("Tên linh kiện: ");
-        String ten = sc.nextLine();
-        System.out.print("Giá nhập: ");
-        double gia = sc.nextDouble();
-        System.out.print("Số lượng: ");
-        int sl = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Mục đích sử dụng: ");
-        String mucDich = sc.nextLine();
-
-        LinhKienTonKho lk = new LinhKienTonKho(ma, ten, new Date(), mucDich, gia, "Kệ C1", sl, "Tốt");
-        dsKho.themLinhKien(lk);
-        System.out.println("Đã thêm linh kiện!");
-    }
-
-    // Menu hàng lỗi
-    private void menuHangLoi() {
-        int luaChon;
-        do {
-            System.out.println("\n--- QUẢN LÝ HÀNG LỖI CẦN XỬ LÝ ---");
-            System.out.println("1. Thêm hàng lỗi");
-            System.out.println("2. Xem danh sách hàng lỗi");
-            System.out.println("3. Quay lại");
-            System.out.print("Chọn: ");
-            luaChon = sc.nextInt();
-            sc.nextLine();
-
-            switch (luaChon) {
-                case 1:
-                    themHangLoi();
-                    break;
-                case 2:
-                    dsKho.xemTatCaHangLoi();
-                    break;
-                case 3:
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        } while (luaChon != 3);
-    }
-
-    // Thêm hàng lỗi
-    private void themHangLoi() {
-        System.out.print("Mã sản phẩm lỗi: ");
-        String ma = sc.nextLine();
-        System.out.print("Tên sản phẩm: ");
-        String ten = sc.nextLine();
-        System.out.print("Loại lỗi: ");
-        String loaiLoi = sc.nextLine();
-        System.out.print("Nguồn gốc (Nhà cung cấp/Khách hàng): ");
-        String nguonGoc = sc.nextLine();
-        System.out.print("Cách xử lý: ");
-        String cachXuLy = sc.nextLine();
-        System.out.print("Giá trị thiệt hại: ");
-        double giaTriThietHai = sc.nextDouble();
-        System.out.print("Số lượng: ");
-        int sl = sc.nextInt();
-        sc.nextLine();
-
-        HangLoiCanXuLy hl = new HangLoiCanXuLy(ma, ten, loaiLoi, new Date(), nguonGoc, cachXuLy, giaTriThietHai, "Kệ D1", sl, "Chờ xử lý");
-        dsKho.themHangLoi(hl);
-        System.out.println("Đã thêm hàng lỗi!");
-    }
-
-    // Menu nhà cung cấp
+    // Menu nhà cung cấp - ĐÃ ĐƠN GIẢN HÓA
     private void menuNhaCungCap() {
         int luaChon;
         do {
-            System.out.println("\n--- QUẢN LÝ NHÀ CUNG CẤP ---");
+            System.out.println("\n========== QUẢN LÝ NHÀ CUNG CẤP ==========");
             System.out.println("1. Thêm nhà cung cấp");
             System.out.println("2. Sửa thông tin nhà cung cấp");
             System.out.println("3. Xóa nhà cung cấp");
             System.out.println("4. Tìm kiếm nhà cung cấp");
             System.out.println("5. Xem danh sách nhà cung cấp");
-            System.out.println("6. Đánh giá chất lượng nhà cung cấp");
-            System.out.println("7. Quay lại");
+            System.out.println("6. Tải dữ liệu nhà cung cấp từ file");
+            System.out.println("7. Xuất dữ liệu nhà cung cấp ra file");
+            System.out.println("8. Quay lại");
             System.out.print("Chọn: ");
             luaChon = sc.nextInt();
             sc.nextLine();
@@ -363,256 +436,294 @@ public class QlyKhoNcc {
                     System.out.println("Tổng số NCC: " + NhaCungCap.layTongSoNhaCungCap());
                     break;
                 case 6:
-                    danhGiaNhaCungCap();
+                    taiDuLieuNhaCungCap();
                     break;
                 case 7:
+                    xuatDuLieuNhaCungCap();
+                    break;
+                case 8:
                     break;
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }
-        } while (luaChon != 7);
+        } while (luaChon != 8);
     }
 
-    // Thêm nhà cung cấp
-    private void themNhaCungCap() {
-        System.out.print("Mã NCC: ");
-        String ma = sc.nextLine();
-        System.out.print("Tên NCC: ");
-        String ten = sc.nextLine();
-        System.out.print("Sản phẩm cung cấp: ");
-        String sp = sc.nextLine();
-        System.out.print("Số điện thoại: ");
-        String sdt = sc.nextLine();
-        System.out.print("Địa chỉ: ");
-        String dc = sc.nextLine();
-
-        NhaCungCap ncc = new NhaCungCap(ma, ten, sp, 100, sdt, dc);
-        dsNcc.themNhaCungCap(ncc);
-        System.out.println("Đã thêm!");
-    }
-
-    // Sửa nhà cung cấp
-    private void suaNhaCungCap() {
-        System.out.print("Mã NCC cần sửa: ");
-        String ma = sc.nextLine();
-        System.out.print("Tên mới: ");
-        String ten = sc.nextLine();
-        System.out.print("Sản phẩm mới: ");
-        String sp = sc.nextLine();
-        System.out.print("Độ tin cậy mới (0-100): ");
-        double dtc = sc.nextDouble();
-
-        if (dsNcc.suaNhaCungCap(ma, ten, sp, dtc)) {
-            System.out.println("Đã cập nhật!");
-        } else {
-            System.out.println("Không tìm thấy!");
-        }
-    }
-
-    // Xóa nhà cung cấp
-    private void xoaNhaCungCap() {
-        System.out.print("Mã NCC cần xóa: ");
-        String ma = sc.nextLine();
-        if (dsNcc.xoaNhaCungCap(ma)) {
-            System.out.println("Đã xóa");
-        } else {
-            System.out.println("Không tìm thấy");
-        }
-    }
-
-    // Tìm kiếm nhà cung cấp
-    private void timKiemNhaCungCap() {
-        System.out.print("Nhập tên cần tìm: ");
-        String ten = sc.nextLine();
-        List<NhaCungCap> kq = dsNcc.timTheoTen(ten);
-        if (kq.isEmpty()) {
-            System.out.println("Không tìm thấy!");
-        } else {
-            for (NhaCungCap ncc : kq) {
-                System.out.println("Mã: " + ncc.getMaNhaCungCap() + " - Tên: " + ncc.getTenNhaCungCap() + " - Độ tin cậy: " + ncc.getDoTinCay());
-            }
-        }
-    }
-
-    // Đánh giá nhà cung cấp
-    private void danhGiaNhaCungCap() {
-        System.out.print("Mã NCC: ");
-        String ma = sc.nextLine();
-        System.out.print("Tổng hàng nhập: ");
-        int tong = sc.nextInt();
-        System.out.print("Số hàng lỗi: ");
-        int loi = sc.nextInt();
-        dsNcc.danhGiaChatLuong(ma, tong, loi);
-    }
-
-    // Menu nghiệp vụ kho
-    private void menuNghiepVu() {
-        int luaChon;
-        do {
-            System.out.println("\n--- NGHIỆP VỤ KHO ---");
-            System.out.println("1. Nhập kho");
-            System.out.println("2. Xuất kho");
-            System.out.println("3. Kiểm kho");
-            System.out.println("4. Quay lại");
-            System.out.print("Chọn: ");
-            luaChon = sc.nextInt();
-            sc.nextLine();
-
-            switch (luaChon) {
-                case 1:
-                    nhapKho();
-                    break;
-                case 2:
-                    xuatKho();
-                    break;
-                case 3:
-                    kiemKho();
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
-        } while (luaChon != 4);
-    }
-
-    // Nhập kho
-    private void nhapKho() {
-        System.out.print("Mã NCC: ");
-        String maNCC = sc.nextLine();
-        NhaCungCap ncc = dsNcc.timTheoMa(maNCC);
-        if (ncc == null) {
-            System.out.println("Không tìm thấy NCC!");
+    // Thêm nhà cung cấp - LOGIC CHUẨN NGHIỆP VỤ
+   private void themNhaCungCap() {
+    try {
+        System.out.println("\n--- THEM NHA CUNG CAP ---");
+        
+        System.out.print("Ma NCC: ");
+        String ma = sc.nextLine().trim();
+        if (ma.isEmpty()) {
+            System.out.println("Loi: Ma khong duoc de trong!");
             return;
         }
-
-        System.out.print("Mã sản phẩm: ");
-        String maSP = sc.nextLine();
-        System.out.print("Tên sản phẩm: ");
-        String tenSP = sc.nextLine();
-        System.out.print("Hãng sản xuất: ");
-        String hangSX = sc.nextLine();
-        System.out.print("Giá bán: ");
-        double giaBan = sc.nextDouble();
-        System.out.print("Số lượng tồn: ");
-        int soLuongTon = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Ngày nhập (dd/MM/yyyy): ");
-        String ngayNhap = sc.nextLine();
-        System.out.print("Loại sản phẩm: ");
-        String loai = sc.nextLine();
-
-        SanPham sp;
-        String l = loai == null ? "" : loai.toLowerCase();
-        if (l.contains("điện") || l.contains("dien") || l.contains("đt")) {
-            System.out.print("Nhập IMEI: ");
-            String imei = sc.nextLine();
-            System.out.print("Nhập cấu hình: ");
-            String cauHinh = sc.nextLine();
-            sp = new DienThoai(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, imei, cauHinh);
-        } else if (l.contains("phụ") || l.contains("phu") || l.contains("phu kien") || l.contains("phukien")) {
-            System.out.print("Loại phụ kiện: ");
-            String loaiPk = sc.nextLine();
-            System.out.print("Tương thích: ");
-            String tuongThich = sc.nextLine();
-            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, loaiPk, tuongThich);
-        } else if (l.contains("linh")) {
-            System.out.print("Dành cho sửa chữa? (y/n): ");
-            boolean danhChoSua = sc.nextLine().equalsIgnoreCase("y");
-            System.out.print("Thuộc bảo hành? (y/n): ");
-            boolean thuocBaoHanh = sc.nextLine().equalsIgnoreCase("y");
-            sp = new LinhKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, danhChoSua, thuocBaoHanh);
-        } else {
-            sp = new PhuKien(maSP, tenSP, giaBan, hangSX, soLuongTon, ngayNhap, "", "");
+        
+        if (dsNcc.timTheoMa(ma) != null) {
+            System.out.println("Loi: Ma da ton tai!");
+            return;
+        }
+        
+        System.out.print("Ten NCC: ");
+        String ten = sc.nextLine().trim();
+        if (ten.isEmpty()) {
+            System.out.println("Loi: Ten khong duoc de trong!");
+            return;
+        }
+        
+        System.out.print("San pham cung cap: ");
+        String sp = sc.nextLine().trim();
+        
+        System.out.print("So dien thoai: ");
+        String sdt = sc.nextLine().trim();
+        if (sdt.isEmpty()) {
+            System.out.println("Loi: SDT khong duoc de trong!");
+            return;
+        }
+        
+        System.out.print("Dia chi: ");
+        String dc = sc.nextLine().trim();
+        
+        System.out.print("Do tin cay (0-100, mac dinh 100): ");
+        String dtcStr = sc.nextLine().trim();
+        double doTinCay = 100;
+        if (!dtcStr.isEmpty()) {
+            try {
+                doTinCay = Double.parseDouble(dtcStr);
+                if (doTinCay < 0 || doTinCay > 100) doTinCay = 100;
+            } catch (NumberFormatException e) {}
         }
 
-        dsKho.nhapKho(sp, soLuongTon, ncc);
-        System.out.println("Đã nhập kho!");
+        NhaCungCap ncc = new NhaCungCap(ma, ten, sp, doTinCay, sdt, dc);
+        dsNcc.themNhaCungCap(ncc);
+        
+        System.out.println("\nThem thanh cong!");
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
     }
-
-    // Xuất kho
-    private void xuatKho() {
-        System.out.print("Mã sản phẩm: ");
-        String ma = sc.nextLine();
-        System.out.print("Số lượng xuất: ");
-        int sl = sc.nextInt();
-        dsKho.xuatKho(ma, sl);
-        System.out.println("Đã xuất kho!");
+}
+    // Sửa nhà cung cấp - LOGIC CHUẨN NGHIỆP VỤ
+    private void suaNhaCungCap() {
+    try {
+        System.out.println("\n--- SUA NHA CUNG CAP ---");
+        
+        System.out.print("Nhap ma NCC: ");
+        String ma = sc.nextLine().trim();
+        
+        NhaCungCap ncc = dsNcc.timTheoMa(ma);
+        if (ncc == null) {
+            System.out.println("Khong tim thay!");
+            return;
+        }
+        
+        System.out.println("\nThong tin hien tai:");
+        System.out.println("Ma: " + ncc.getMaNhaCungCap());
+        System.out.println("Ten: " + ncc.getTenNhaCungCap());
+        System.out.println("San pham: " + ncc.getSanPhamCungCap());
+        System.out.println("Do tin cay: " + ncc.getDoTinCay());
+        System.out.println("SDT: " + ncc.getSoDienThoai());
+        System.out.println("Dia chi: " + ncc.getDiaChi());
+        
+        System.out.println("\nNhap thong tin moi (Enter de giu nguyen):");
+        
+        System.out.print("Ten [" + ncc.getTenNhaCungCap() + "]: ");
+        String tenMoi = sc.nextLine().trim();
+        if (!tenMoi.isEmpty()) ncc.setTenNhaCungCap(tenMoi);
+        
+        System.out.print("San pham [" + ncc.getSanPhamCungCap() + "]: ");
+        String spMoi = sc.nextLine().trim();
+        if (!spMoi.isEmpty()) ncc.setSanPhamCungCap(spMoi);
+        
+        System.out.print("SDT [" + ncc.getSoDienThoai() + "]: ");
+        String sdtMoi = sc.nextLine().trim();
+        if (!sdtMoi.isEmpty()) ncc.setSoDienThoai(sdtMoi);
+        
+        System.out.print("Dia chi [" + ncc.getDiaChi() + "]: ");
+        String dcMoi = sc.nextLine().trim();
+        if (!dcMoi.isEmpty()) ncc.setDiaChi(dcMoi);
+        
+        System.out.print("Do tin cay [" + ncc.getDoTinCay() + "]: ");
+        String dtcStr = sc.nextLine().trim();
+        if (!dtcStr.isEmpty()) {
+            try {
+                double dtcMoi = Double.parseDouble(dtcStr);
+                if (dtcMoi >= 0 && dtcMoi <= 100) ncc.setDoTinCay(dtcMoi);
+            } catch (NumberFormatException e) {}
+        }
+        
+        System.out.println("\nCap nhat thanh cong!");
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
     }
+}
 
-    // Kiểm kho
-    private void kiemKho() {
-        System.out.print("Serial cần kiểm: ");
-        String serial = sc.nextLine();
-        System.out.print("Số lượng thực tế: ");
-        int sl = sc.nextInt();
-        dsKho.kiemKho(serial, sl);
-    }
-
-    // Menu thống kê
-    private void menuThongKe() {
-        int luaChon;
-        do {
-            System.out.println("\n--- THỐNG KÊ & BÁO CÁO ---");
-            System.out.println("1. Hàng tồn kho lâu (>3 tháng)");
-            System.out.println("2. Hàng sắp hết (<5 cái)");
-            System.out.println("3. Giá trị tồn kho");
-            System.out.println("4. Cảnh báo hết hàng");
-            System.out.println("5. Lọc NCC theo độ tin cậy");
-            System.out.println("6. Quay lại");
-            System.out.print("Chọn: ");
-            luaChon = sc.nextInt();
-            sc.nextLine();
-
-            switch (luaChon) {
-                case 1:
-                    List<SanPhamTrongKho> tonLau = dsKho.thongKeHangTonLau();
-                    System.out.println("Có " + tonLau.size() + " sản phẩm tồn lâu:");
-                    for (SanPhamTrongKho sp : tonLau) {
-                        System.out.println("- " + sp.layThongTinChiTiet() + " | Tuổi: " + KhoHelper.tinhTuoiTonKho(sp.getNgayNhap()) + " ngày");
-                    }
-                    break;
-                case 2:
-                    List<SanPhamTrongKho> sapHet = dsKho.thongKeHangSapHet();
-                    System.out.println("Có " + sapHet.size() + " sản phẩm sắp hết:");
-                    for (SanPhamTrongKho sp : sapHet) {
-                        System.out.println("- " + sp.layThongTinChiTiet());
-                    }
-                    break;
-                case 3:
-                    double giaTri = dsKho.tinhGiaTriTonKho();
-                    System.out.println("Giá trị tồn kho: " + String.format("%.2f", giaTri) + " VNĐ");
-                    break;
-                case 4:
-                    System.out.print("Ngưỡng tối thiểu: ");
-                    int nguong = sc.nextInt();
-                    List<SanPham> hetHang = dsKho.canhBaoHetHang(nguong);
-                    System.out.println("Có " + hetHang.size() + " sản phẩm cần nhập thêm");
-                    break;
-                case 5:
-                    System.out.print("Độ tin cậy tối thiểu: ");
-                    double dtc = sc.nextDouble();
-                    List<NhaCungCap> nccTot = dsNcc.locTheoDoTinCay(dtc);
-                    System.out.println("Có " + nccTot.size() + " NCC đạt yêu cầu:");
-                    for (NhaCungCap ncc : nccTot) {
-                        System.out.println("- " + ncc.getTenNhaCungCap() + " (" + ncc.getDoTinCay() + "%)");
-                    }
-                    break;
-                case 6:
-                    break;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
+    // Xóa nhà cung cấp - LOGIC CHUẨN NGHIỆP VỤ
+    private void xoaNhaCungCap() {
+    try {
+        System.out.println("\n--- XOA NHA CUNG CAP ---");
+        
+        System.out.print("Nhap ma NCC: ");
+        String ma = sc.nextLine().trim();
+        
+        NhaCungCap ncc = dsNcc.timTheoMa(ma);
+        if (ncc == null) {
+            System.out.println("Khong tim thay!");
+            return;
+        }
+        
+        System.out.println("\nThong tin NCC:");
+        System.out.println("Ma: " + ncc.getMaNhaCungCap());
+        System.out.println("Ten: " + ncc.getTenNhaCungCap());
+        System.out.println("SDT: " + ncc.getSoDienThoai());
+        
+        System.out.print("\nXac nhan xoa? (y/n): ");
+        String xacNhan = sc.nextLine().trim();
+        
+        if (xacNhan.equalsIgnoreCase("y")) {
+            if (dsNcc.xoaNhaCungCap(ma)) {
+                System.out.println("Xoa thanh cong!");
+            } else {
+                System.out.println("Loi khi xoa!");
             }
-        } while (luaChon != 6);
+        } else {
+            System.out.println("Da huy!");
+        }
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
     }
+}
 
-    // Tải dữ liệu từ file
+    // Tìm kiếm nhà cung cấp - LOGIC CHUẨN NGHIỆP VỤ
+    private void timKiemNhaCungCap() {
+    try {
+        System.out.println("\n--- TIM KIEM NHA CUNG CAP ---");
+        System.out.println("1. Tim theo Ma");
+        System.out.println("2. Tim theo Ten");
+        System.out.println("3. Tim theo San pham");
+        System.out.println("4. Tim theo SDT");
+        System.out.print("Chon: ");
+        int chon = sc.nextInt();
+        sc.nextLine();
+
+        if (chon == 1) {
+            System.out.print("Nhap ma: ");
+            String ma = sc.nextLine().trim();
+            NhaCungCap ncc = dsNcc.timTheoMa(ma);
+            if (ncc != null) {
+                hienThiNCC(ncc);
+            } else {
+                System.out.println("Khong tim thay!");
+            }
+        } else if (chon == 2) {
+            System.out.print("Nhap ten: ");
+            String ten = sc.nextLine().trim();
+            List<NhaCungCap> ds = dsNcc.timTheoTen(ten);
+            hienThiDanhSachNCC(ds);
+        } else if (chon == 3) {
+            System.out.print("Nhap san pham: ");
+            String sp = sc.nextLine().trim();
+            List<NhaCungCap> ds = dsNcc.timTheoSanPham(sp);
+            hienThiDanhSachNCC(ds);
+        } else if (chon == 4) {
+            System.out.print("Nhap SDT: ");
+            String sdt = sc.nextLine().trim();
+            List<NhaCungCap> ds = dsNcc.timTheoSDT(sdt);
+            hienThiDanhSachNCC(ds);
+        } else {
+            System.out.println("Lua chon khong hop le!");
+        }
+        
+    } catch (Exception e) {
+        System.out.println("Loi: " + e.getMessage());
+        sc.nextLine();
+    }
+}
+
+private void hienThiNCC(NhaCungCap ncc) {
+    System.out.println("\nMa: " + ncc.getMaNhaCungCap());
+    System.out.println("Ten: " + ncc.getTenNhaCungCap());
+    System.out.println("San pham: " + ncc.getSanPhamCungCap());
+    System.out.println("Do tin cay: " + ncc.getDoTinCay() + "%");
+    System.out.println("SDT: " + ncc.getSoDienThoai());
+    System.out.println("Dia chi: " + ncc.getDiaChi());
+}
+
+private void hienThiDanhSachNCC(List<NhaCungCap> ds) {
+    if (ds.isEmpty()) {
+        System.out.println("Khong tim thay!");
+    } else {
+        System.out.println("\nTim thay " + ds.size() + " NCC:");
+        for (int i = 0; i < ds.size(); i++) {
+            System.out.println("\n--- NCC " + (i + 1) + " ---");
+            hienThiNCC(ds.get(i));
+        }
+    }
+}
+
+    // Tải dữ liệu từ file (tất cả)
     private void taiDuLieu() {
         qltt.taiDuLieuTuFile();
     }
 
-    // Lưu dữ liệu ra file
+    // Lưu dữ liệu ra file (tất cả)
     private void luuDuLieu() {
         qltt.luuDuLieuRaFile();
+    }
+
+    // Tải dữ liệu kho từ file
+    private void taiDuLieuKho() {
+        System.out.print("Nhập tên file (mặc định: kho.txt): ");
+        String tenFile = sc.nextLine();
+        if (tenFile.isEmpty()) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/kho.txt";
+        } else if (!tenFile.contains("/") && !tenFile.contains("\\")) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/" + tenFile;
+        }
+        dsKho.docFile(tenFile);
+        System.out.println("Đã tải dữ liệu kho từ file: " + tenFile);
+    }
+
+    // Xuất dữ liệu kho ra file
+    private void xuatDuLieuKho() {
+        System.out.print("Nhập tên file (mặc định: kho.txt): ");
+        String tenFile = sc.nextLine();
+        if (tenFile.isEmpty()) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/kho.txt";
+        } else if (!tenFile.contains("/") && !tenFile.contains("\\")) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/" + tenFile;
+        }
+        dsKho.ghiFile(tenFile);
+        System.out.println("Đã xuất dữ liệu kho ra file: " + tenFile);
+    }
+
+    // Tải dữ liệu nhà cung cấp từ file
+    private void taiDuLieuNhaCungCap() {
+        System.out.print("Nhập tên file (mặc định: nhacungcap.txt): ");
+        String tenFile = sc.nextLine();
+        if (tenFile.isEmpty()) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/nhacungcap.txt";
+        } else if (!tenFile.contains("/") && !tenFile.contains("\\")) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/" + tenFile;
+        }
+        dsNcc.docFile(tenFile);
+        System.out.println("Đã tải dữ liệu nhà cung cấp từ file: " + tenFile);
+    }
+
+    // Xuất dữ liệu nhà cung cấp ra file
+    private void xuatDuLieuNhaCungCap() {
+        System.out.print("Nhập tên file (mặc định: nhacungcap.txt): ");
+        String tenFile = sc.nextLine();
+        if (tenFile.isEmpty()) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/nhacungcap.txt";
+        } else if (!tenFile.contains("/") && !tenFile.contains("\\")) {
+            tenFile = "src/QuanLyCuaHangBanDienThoai/" + tenFile;
+        }
+        dsNcc.ghiFile(tenFile);
+        System.out.println("Đã xuất dữ liệu nhà cung cấp ra file: " + tenFile);
     }
 }

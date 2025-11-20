@@ -46,4 +46,9 @@ class KhachHang extends ConNguoi {
     public int getDiemTichLuy() { return diemTichLuy; }
     public String getHangThanhVien() { return hangThanhVien; }
     public List<String> getLichSuMuaHang() { return lichSuMuaHang; }
+    
+    // Setter methods
+    public void setDiemTichLuy(int diemTichLuy) { this.diemTichLuy = diemTichLuy; }
+    public void setHangThanhVien(String hangThanhVien) { this.hangThanhVien = hangThanhVien; }
+    public void setLichSuMuaHang(List<String> lichSuMuaHang) { this.lichSuMuaHang = lichSuMuaHang; }
 }
