@@ -1,5 +1,17 @@
 # File danh sách sản phẩm - Format: LOAI|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|...
-# DT = Điện thoại: DT|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|imei|cauHinh
-# PK = Phụ kiện: PK|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|loaiPhuKien|tuongThich
-# LK = Linh kiện: LK|maSP|tenSP|giaBan|hangSX|soLuongTon|ngayNhap|danhChoSuaChua|thuocBaoHanh
-
+# DT = Điện thoại, PK = Phụ kiện, LK = Linh kiện
+DT|SP001|iPhone 15 Pro Max|29990000.00|Apple|50|15/11/2024|123456789012345|A17 Pro, 256GB, 6.7 inch
+DT|SP002|Samsung Galaxy S24 Ultra|27990000.00|Samsung|45|16/11/2024|234567890123456|Snapdragon 8 Gen 3, 512GB, 6.8 inch
+DT|SP003|Xiaomi 14 Pro|19990000.00|Xiaomi|60|17/11/2024|345678901234567|Snapdragon 8 Gen 3, 256GB, 6.73 inch
+DT|SP004|OPPO Find X7 Ultra|24990000.00|OPPO|35|18/11/2024|456789012345678|Snapdragon 8 Gen 3, 512GB, 6.82 inch
+DT|SP005|Vivo X100 Pro|22990000.00|Vivo|40|19/11/2024|567890123456789|Dimensity 9300, 256GB, 6.78 inch
+PK|SP006|Ốp lưng iPhone 15 Pro Max|299000.00|Apple|200|15/11/2024|Ốp lưng|iPhone 15 Pro Max
+PK|SP007|Sạc nhanh 65W|599000.00|Anker|150|16/11/2024|Sạc|Universal
+PK|SP008|Tai nghe AirPods Pro 2|6990000.00|Apple|80|17/11/2024|Tai nghe|iPhone, iPad
+PK|SP009|Cáp sạc Type-C|199000.00|Samsung|300|18/11/2024|Cáp sạc|Samsung, Xiaomi, OPPO
+PK|SP010|Miếng dán màn hình|149000.00|Nillkin|250|19/11/2024|Miếng dán|Universal
+LK|SP011|Màn hình iPhone 15 Pro Max|4500000.00|Apple|20|15/11/2024|true|true
+LK|SP012|Pin Samsung Galaxy S24|1200000.00|Samsung|30|16/11/2024|true|true
+LK|SP013|Camera sau Xiaomi 14 Pro|2800000.00|Xiaomi|15|17/11/2024|true|true
+LK|SP014|Bo mạch chủ OPPO Find X7|3500000.00|OPPO|10|18/11/2024|true|false
+LK|SP015|Loa ngoài Vivo X100 Pro|450000.00|Vivo|25|19/11/2024|true|true

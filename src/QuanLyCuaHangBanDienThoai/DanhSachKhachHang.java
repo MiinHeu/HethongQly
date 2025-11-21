@@ -74,27 +74,6 @@ class DanhSachKhachHang implements IQuanLyKhachHang {
         return kq;
     }
 
-    // Tìm gần đúng theo tên 
-//    public List<KhachHang> timGanDungTen(String ten) {
-//        return ds.stream()
-//                .filter(k -> tinhKhoangCachChuoi(k.getTen().toLowerCase(), ten.toLowerCase()) <= 2)
-//                .collect(Collectors.toList());
-//    }
-
-    // Thống kê VIP
-//    public List<KhachHang> thongKeVIP() {
-//        return ds.stream()
-//                .filter(k -> k instanceof KhachHangVIP)
-//                .collect(Collectors.toList());
-//    }
-
-    // Khách mua nhiều nhất (nhiều đơn nhất)
-//    public KhachHang khachMuaNhieuNhat() {
-//        return ds.stream()
-//                .max(Comparator.comparingInt(k -> k.getLichSuMuaHang().size()))
-//                .orElse(null);
-//    }
-
     // FILE I/O 
     public void ghiFile(String fileName) throws Exception {
         BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
@@ -117,22 +96,6 @@ class DanhSachKhachHang implements IQuanLyKhachHang {
         }
         br.close();
     }
-
-    // Hàm so sánh chuỗi gần đúng
-//    private int tinhKhoangCachChuoi(String s1, String s2) {
-//        int[][] dp = new int[s1.length()+1][s2.length()+1];
-//
-//        for (int i = 0; i <= s1.length(); i++) {
-//            for (int j = 0; j <= s2.length(); j++) {
-//                if (i == 0) dp[i][j] = j;
-//                else if (j == 0) dp[i][j] = i;
-//                else dp[i][j] = (s1.charAt(i-1) == s2.charAt(j-1))
-//                        ? dp[i-1][j-1]
-//                        : 1 + Math.min(dp[i-1][j-1], Math.min(dp[i-1][j], dp[i][j-1]));
-//            }
-//        }
-//        return dp[s1.length()][s2.length()];
-//    }
 
     // 7. INTERFACE 
 

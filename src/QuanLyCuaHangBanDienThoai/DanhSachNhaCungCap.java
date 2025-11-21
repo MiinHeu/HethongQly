@@ -104,32 +104,6 @@ public class DanhSachNhaCungCap {
         }
     }
 
-    // ========== CÁC PHƯƠNG THỨC ĐÃ COMMENT (KHÔNG CẦN THIẾT) ==========
-    
-    /*
-    // Đánh giá chất lượng - tính tỷ lệ hàng lỗi - ĐÃ COMMENT
-    public void danhGiaChatLuong(String maNCC, int tongHangNhap, int soHangLoi) {
-        NhaCungCap ncc = timTheoMa(maNCC);
-        if (ncc != null) {
-            double tyLeHangLoi = (double) soHangLoi / tongHangNhap * 100;
-            double doTinCayMoi = 100 - tyLeHangLoi;
-            ncc.setDoTinCay(doTinCayMoi);
-            System.out.println("Đã cập nhật độ tin cậy cho " + ncc.getTenNhaCungCap() + ": " + doTinCayMoi + "%");
-        }
-    }
-
-    // Lọc nhà cung cấp theo độ tin cậy - ĐÃ COMMENT
-    public List<NhaCungCap> locTheoDoTinCay(double nguongToiThieu) {
-        List<NhaCungCap> ketQua = new ArrayList<>();
-        for (NhaCungCap ncc : danhSach) {
-            if (ncc.getDoTinCay() >= nguongToiThieu) {
-                ketQua.add(ncc);
-            }
-        }
-        return ketQua;
-    }
-    */
-
     // Ghi dữ liệu ra file
     public void ghiFile(String tenFile) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(tenFile))) {

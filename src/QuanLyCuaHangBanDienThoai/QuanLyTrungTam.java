@@ -1,9 +1,9 @@
 package QuanLyCuaHangBanDienThoai;
 
-/**
- * Lớp quản lý trung tâm - liên kết tất cả các module với nhau
- * Đảm bảo logic nghiệp vụ hoạt động đúng và các module tương tác với nhau
- */
+///**
+// * Lớp quản lý trung tâm - liên kết tất cả các module với nhau
+// * Đảm bảo logic nghiệp vụ hoạt động đúng và các module tương tác với nhau
+// */
 public class QuanLyTrungTam {
     private static QuanLyTrungTam instance;
     private DanhSachKhachHang danhSachKhachHang;
@@ -21,7 +21,7 @@ public class QuanLyTrungTam {
         danhSachGiaoDich = new DanhSachGiaoDich();
     }
 
-    // Lấy instance duy nhất (Singleton)
+    // Lấy instance duy nhất
     public static QuanLyTrungTam getInstance() {
         if (instance == null) {
             instance = new QuanLyTrungTam();
@@ -50,14 +50,14 @@ public class QuanLyTrungTam {
         return danhSachGiaoDich;
     }
 
-    /**
-     * Xử lý bán hàng - liên kết các module:
-     * 1. Kiểm tra khách hàng có tồn tại
-     * 2. Kiểm tra sản phẩm có tồn tại và đủ số lượng
-     * 3. Cập nhật số lượng tồn kho
-     * 4. Cập nhật điểm tích lũy cho khách hàng
-     * 5. Cập nhật hạng khách hàng nếu cần
-     */
+//    /**
+//     * Xử lý bán hàng - liên kết các module:
+//     * 1. Kiểm tra khách hàng có tồn tại
+//     * 2. Kiểm tra sản phẩm có tồn tại và đủ số lượng
+//     * 3. Cập nhật số lượng tồn kho
+//     * 4. Cập nhật điểm tích lũy cho khách hàng
+//     * 5. Cập nhật hạng khách hàng nếu cần
+//     */
     public boolean xuLyBanHang(HoaDonBan hoaDon) {
         // 1. Kiểm tra khách hàng có tồn tại
         KhachHang kh = danhSachKhachHang.timTheoMa(hoaDon.getMaKhachHang());

@@ -86,12 +86,30 @@ public class QlyGiaoDich {
 
             if (loai == 1) {
                 // Hoa don ban
-                System.out.print("Ma khach hang: ");
+                // Hien thi danh sach khach hang de chon
+                List<KhachHang> dsKH = qltt.getDanhSachKhachHang().layDanhSach();
+                if (dsKH.isEmpty()) {
+                    System.out.println("Loi: Chua co khach hang nao trong he thong!");
+                    System.out.println("Vui long them khach hang truoc (Menu 2)");
+                    return;
+                }
+                
+                System.out.println("\n--- Danh sach khach hang ---");
+                for (int i = 0; i < Math.min(5, dsKH.size()); i++) {
+                    KhachHang k = dsKH.get(i);
+                    System.out.println(k.getMa() + " - " + k.getTen() + " - " + k.getSdt());
+                }
+                if (dsKH.size() > 5) {
+                    System.out.println("... va " + (dsKH.size() - 5) + " khach hang khac");
+                }
+                
+                System.out.print("\nMa khach hang: ");
                 String maKH = scanner.nextLine().trim();
 
                 KhachHang kh = qltt.getDanhSachKhachHang().timTheoMa(maKH);
                 if (kh == null) {
-                    System.out.println("Loi: Khong tim thay khach hang!");
+                    System.out.println("Loi: Khong tim thay khach hang voi ma: " + maKH);
+                    System.out.println("Vui long kiem tra lai ma khach hang!");
                     return;
                 }
 
@@ -99,12 +117,30 @@ public class QlyGiaoDich {
 
             } else if (loai == 2) {
                 // Phieu nhap
-                System.out.print("Ma nha cung cap: ");
+                // Hien thi danh sach nha cung cap de chon
+                List<NhaCungCap> dsNCC = qltt.getDanhSachNhaCungCap().getDanhSach();
+                if (dsNCC.isEmpty()) {
+                    System.out.println("Loi: Chua co nha cung cap nao trong he thong!");
+                    System.out.println("Vui long them nha cung cap truoc (Menu 1 -> Quan ly NCC)");
+                    return;
+                }
+                
+                System.out.println("\n--- Danh sach nha cung cap ---");
+                for (int i = 0; i < Math.min(5, dsNCC.size()); i++) {
+                    NhaCungCap n = dsNCC.get(i);
+                    System.out.println(n.getMaNhaCungCap() + " - " + n.getTenNhaCungCap());
+                }
+                if (dsNCC.size() > 5) {
+                    System.out.println("... va " + (dsNCC.size() - 5) + " nha cung cap khac");
+                }
+                
+                System.out.print("\nMa nha cung cap: ");
                 String maNCC = scanner.nextLine().trim();
 
                 NhaCungCap ncc = qltt.getDanhSachNhaCungCap().timTheoMa(maNCC);
                 if (ncc == null) {
-                    System.out.println("Loi: Khong tim thay nha cung cap!");
+                    System.out.println("Loi: Khong tim thay nha cung cap voi ma: " + maNCC);
+                    System.out.println("Vui long kiem tra lai ma nha cung cap!");
                     return;
                 }
 
@@ -120,7 +156,24 @@ public class QlyGiaoDich {
 
             } else if (loai == 3) {
                 // Phieu bao hanh
-                System.out.print("Ma san pham: ");
+                // Hien thi danh sach san pham de chon
+                List<SanPham> dsSP = qltt.getDanhSachSanPham().layDanhSach();
+                if (dsSP.isEmpty()) {
+                    System.out.println("Loi: Chua co san pham nao trong he thong!");
+                    System.out.println("Vui long them san pham truoc (Menu 3)");
+                    return;
+                }
+                
+                System.out.println("\n--- Danh sach san pham ---");
+                for (int i = 0; i < Math.min(5, dsSP.size()); i++) {
+                    SanPham s = dsSP.get(i);
+                    System.out.println(s.getMaSP() + " - " + s.getTenSP());
+                }
+                if (dsSP.size() > 5) {
+                    System.out.println("... va " + (dsSP.size() - 5) + " san pham khac");
+                }
+                
+                System.out.print("\nMa san pham: ");
                 String maSP = scanner.nextLine().trim();
 
                 System.out.print("Loi hong: ");
